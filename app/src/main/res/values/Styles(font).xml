@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SegoeLight">
+        <item name="android:fontFamily">@font/segoe_family</item>
+    </style>
+
+    <style name="SegoeRegular">
+        <item name="android:fontFamily">@font/segoe_family</item>
+    </style>
+
+    <style name="SegoeSemibold">
+        <item name="android:fontFamily">@font/segoe_family</item>
+    </style>
+
+    <style name="SegoeBold">
+        <item name="android:fontFamily">@font/segoe_family</item>
+    </style>
+
+    <style name="SegoeExtraBold">
+        <item name="android:fontFamily">@font/segoe_family</item>
+    </style>
+
+</resources>

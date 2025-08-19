@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFirstPage"
+    android:background="@color/white">
+
+    <!-- Green Header or Logo Area -->
+    <View
+        android:id="@+id/ViewLogoHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/greenKomyu"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- KOMYU Logo -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/komyu_header_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Form Container -->
+
+    <LinearLayout
+        android:id="@+id/formContainer"
+        android:layout_width="0dp"
+        android:layout_height="446dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textGoToSignup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ViewLogoHeader"
+        app:layout_constraintVertical_bias="0.0">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/signInTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Sign in your account"
+            android:textSize="18sp"
+            style="@style/SegoeBold"
+            android:textStyle="bold"
+            android:textFontWeight="900"/>
+
+
+        <!-- Username Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="30dp"
+            android:hint="Username...">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editUsername"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableStart="@drawable/username_icon"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="26dp"
+            android:hint="Password..."
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableStart="@drawable/password_icon"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Forgot Password Text -->
+        <TextView
+            android:id="@+id/textForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Forgot Password?"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Sign In Button -->
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/lightGreenKomyu"
+            android:text="SIGN IN"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black" />
+
+        <!-- "Or continue with" -->
+        <TextView
+            android:id="@+id/orContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="--  Or continue with  --"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <!-- Google Login Full Width -->
+        <LinearLayout
+            android:id="@+id/btnContinueWithGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/tf_komyugreen_border"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <ImageView
+                android:id="@+id/googleLogo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/google_logo"
+                android:contentDescription="@string/google_logo" />
+
+            <TextView
+                android:id="@+id/googleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Continue with Google"
+                android:textColor="@color/darkBlueKomyu"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+
+        <!-- Sign Up Redirect -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textGoToSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Don’t have an account? SIGN UP"
+        android:textColor="@color/darkBlueKomyu"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.KomyuApplication">
+        <activity
+            android:name=".ForgetPasswordP2"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpPage3"
+            android:exported="false" />
+        <activity
+            android:name=".SignupPage2"
+            android:exported="false" /> <!-- Sign Up screen -->
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="true" /> <!-- Forgot Password screen -->
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="true" /> <!-- Login screen (sign in page) -->
+        <activity
+            android:name=".LoginFirstPage"
+            android:exported="true" /> <!-- Splash screen (app entry point) -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- Main/Home screen after login -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+    </application>
+
+</manifest>

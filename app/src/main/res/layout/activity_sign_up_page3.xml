@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpPage3"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/ViewLogoHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/greenKomyu"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewLogo4"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/komyu_header_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/formContainer"
+        android:layout_width="0dp"
+        android:layout_height="492dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textGoTologin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ViewLogoHeader"
+        app:layout_constraintVertical_bias="0.0">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/CreateNewAccTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Create a New Account"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+
+        <!-- Username Field -->
+
+        <TextView
+            android:id="@+id/AddressTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Address"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="4dp"
+            android:hint="Address...">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editAddress"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableStart="@drawable/address_icon"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/AgeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="14dp"
+            android:text="Age"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="4dp"
+            android:hint="Age...">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editAge"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableStart="@drawable/username_icon"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+            android:id="@+id/PhoneNoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="14dp"
+            android:text="Phone Number"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="4dp"
+            android:hint="63+">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editDateBirth"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableStart="@drawable/phone_num_icon"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- NEXT PAGE -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="110dp"
+            android:backgroundTint="@color/lightGreenKomyu"
+            android:text="CREATE NEW ACCOUNT"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black" />
+
+
+
+        <!-- login redirect -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textGoTologin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Already have an account? LOGIN"
+        android:textColor="@color/darkBlueKomyu"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
