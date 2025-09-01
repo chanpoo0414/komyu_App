@@ -3,10 +3,8 @@ package com.example.komyuapplication;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.DatePicker;
-import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputEditText;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.Calendar;
 
 public class SignupPage2 extends AppCompatActivity {
 
-    private TextInputEditText editDateBirth;
-    private Calendar calendar;
+    private TextInputEditText editFirstName, editLastName, editDateBirth;
+    private SignUPData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,58 +27,63 @@ public class SignupPage2 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup_page2);
 
-        // Go to Login
-        TextView goToLogin = findViewById(R.id.textGoTologin);
-        goToLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginFirstPage.class);
-            startActivity(intent);
-        });
+        data = (SignUPData) getIntent().getSerializableExtra("data");
+        if (data == null) data = new SignUPData();
 
-        // Go to Signup Page 3
-        TextView goToSignupP3 = findViewById(R.id.btnNext);
-        goToSignupP3.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SignUpPage3.class);
-            startActivity(intent);
-        });
-
-        // Initialize Date Picker
+        editFirstName = findViewById(R.id.editFirstName);
+        editLastName  = findViewById(R.id.editLastName);
         editDateBirth = findViewById(R.id.editDateBirth);
-        calendar = Calendar.getInstance();
 
-        // Disable manual typing (optional)
-        editDateBirth.setKeyListener(null);
+        // Date picker for DOB
+        editDateBirth.setKeyListener(null); // make it non-typing to force picker
+        editDateBirth.setOnClickListener(v -> showDatePicker());
 
-        // Show DatePickerDialog when clicking the field
-        editDateBirth.setOnClickListener(v -> {
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Button btnNext = findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(v -> {
+            String fname = safe(editFirstName);
+            String lname = safe(editLastName);
+            String dob   = safe(editDateBirth); // can be yyyy-MM-dd (we format it in picker)
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    SignupPage2.this,
-                    (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
-                        // Format MM/DD/YY
-                        String formattedDate = String.format("%02d/%02d/%02d",
-                                (selectedMonth + 1),
-                                selectedDay,
-                                selectedYear % 100);
+            if (fname.isEmpty()) { toast("First name is required"); return; }
+            if (lname.isEmpty()) { toast("Last name is required");  return; }
+            if (dob.isEmpty())   { toast("Date of birth is required"); return; }
 
-                        editDateBirth.setText(formattedDate);
-                    },
-                    year, month, day
-            );
+            data.firstName   = fname;
+            data.lastName    = lname;
+            data.dateOfBirth = dob;
 
-            // OPTIONAL: disallow selecting future dates
-            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
-            datePickerDialog.show();
+            Intent i = new Intent(this, SignUpPage3.class);
+            i.putExtra("data", data);
+            startActivity(i);
         });
 
-        // Handle insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
+    private void showDatePicker() {
+        final Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dp = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            // Format as yyyy-MM-dd
+            String mm = String.format("%02d", month + 1);
+            String dd = String.format("%02d", dayOfMonth);
+            editDateBirth.setText(year + "-" + mm + "-" + dd);
+        }, y, m, d);
+
+        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dp.show();
+    }
+
+    private String safe(TextInputEditText t) {
+        return t.getText() == null ? "" : t.getText().toString().trim();
+    }
+
+    private void toast(String m) { Toast.makeText(this, m, Toast.LENGTH_SHORT).show(); }
 }

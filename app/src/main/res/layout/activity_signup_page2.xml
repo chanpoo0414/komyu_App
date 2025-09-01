@@ -13,6 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/greenKomyu"
+        app:layout_constraintBottom_toTopOf="@+id/formContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -68,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="4dp"
-            android:hint="First Name...">
+            app:hintEnabled="false"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editFirstName"
@@ -78,6 +82,8 @@
                 android:drawableStart="@drawable/username_icon"
                 android:drawablePadding="10dp"
                 android:inputType="text"
+                android:hint="First Name..."
+                android:textColor="@color/black"
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="4dp"
-            android:hint="Last Name...">
+            app:hintEnabled="false"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editLastName"
@@ -108,6 +115,8 @@
                 android:drawableStart="@drawable/username_icon"
                 android:drawablePadding="10dp"
                 android:inputType="text"
+                android:hint="Last Name..."
+                android:textColor="@color/black"
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="4dp"
-            android:hint="MM/DD/YY">
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editDateBirth"
@@ -137,7 +146,9 @@
                 android:background="@drawable/white_bg_withcorner"
                 android:drawableEnd="@drawable/calendar_logo"
                 android:drawablePadding="10dp"
-                android:inputType="text"
+                android:inputType="date"
+                android:textColor="@color/black"
+                android:hint="MM/DD/YY"
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
