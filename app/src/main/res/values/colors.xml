@@ -7,5 +7,6 @@
     <color name="greenCornerStroke">#057934</color>
     <color name="darkBlueKomyu">#0B1D32</color>
     <color name="lightGreenKomyu">#2DCB6D</color>
+    <color name="gray">#DBDBDB</color>
 
 </resources>

@@ -28,7 +28,6 @@
         android:layout_width="0dp"
         android:layout_height="492dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/textGoTologin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,11 +44,76 @@
             android:layout_marginTop="16dp"
             android:text="Create a New Account"
             android:textColor="@color/darkBlueKomyu"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             />
 
         <!-- Username Field -->
+        <TextView
+            android:id="@+id/dateOfBirthTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="14dp"
+            android:text="Date of Birth"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="20sp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="4dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editDateBirth"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/white_bg_withcorner"
+                android:drawableEnd="@drawable/calendar_logo"
+                android:drawablePadding="10dp"
+                android:inputType="date"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:textColor="@color/black"
+                android:hint="MM/DD/YY"
+                android:padding="6dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/sexTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp"
+            android:text="Sex"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="20sp"
+            />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutSex"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            app:endIconMode="dropdown_menu"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/dropDownSex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_bg_withcorner"
+                android:hint="Sex"
+                android:inputType="text"
+                android:cursorVisible="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/AddressTitle"
@@ -59,7 +123,7 @@
             android:layout_marginTop="16dp"
             android:text="Address"
             android:textColor="@color/darkBlueKomyu"
-            android:textSize="18sp"
+            android:textSize="20sp"
             />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -83,71 +147,11 @@
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/AgeTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="14dp"
-            android:text="Age"
-            android:textColor="@color/darkBlueKomyu"
-            android:textSize="18sp"
-            />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editAge"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/white_bg_withcorner"
-                android:drawableStart="@drawable/username_icon"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:hint="Age..."
-                android:textColor="@color/black"
-                android:padding="6dp" />
-        </com.google.android.material.textfield.TextInputLayout>
 
 
 
-        <TextView
-            android:id="@+id/PhoneNoTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="14dp"
-            android:text="Phone Number"
-            android:textColor="@color/darkBlueKomyu"
-            android:textSize="18sp"
-            />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editPhone"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/white_bg_withcorner"
-                android:drawableStart="@drawable/phone_num_icon"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:hint="63+"
-                android:textColor="@color/black"
-                android:padding="6dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- NEXT PAGE -->
         <Button
@@ -157,7 +161,8 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="110dp"
             android:backgroundTint="@color/lightGreenKomyu"
-            android:text="CREATE NEW ACCOUNT"
+            android:textSize="18sp"
+            android:text="NEXT"
             android:textAllCaps="false"
             android:textColor="@android:color/black" />
 
@@ -166,20 +171,44 @@
         <!-- login redirect -->
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textGoTologin"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
         android:gravity="center"
-        android:text="Already have an account? LOGIN"
-        android:textColor="@color/darkBlueKomyu"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txtHaveAnAcc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Already have an account?"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text=" LOGIN"
+            android:textColor="@color/darkBlueKomyu"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

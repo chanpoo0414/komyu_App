@@ -10,7 +10,11 @@ public class SignUPData implements Serializable{
     public String lastName;
     public String dateOfBirth;
     public String address;
-    public Integer age;
+    public String sex;
+    public String typeOfId;
+    public String frontId;
+    public String backId;
+    public String categories;
     public String phone;
 
 }

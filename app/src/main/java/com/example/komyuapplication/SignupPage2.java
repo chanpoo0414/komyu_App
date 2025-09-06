@@ -1,6 +1,5 @@
 package com.example.komyuapplication;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,11 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Calendar;
-
 public class SignupPage2 extends AppCompatActivity {
 
-    private TextInputEditText editFirstName, editLastName, editDateBirth;
+    private TextInputEditText editFirstName, editLastName, editPhone;
     private SignUPData data;
 
     @Override
@@ -32,25 +29,21 @@ public class SignupPage2 extends AppCompatActivity {
 
         editFirstName = findViewById(R.id.editFirstName);
         editLastName  = findViewById(R.id.editLastName);
-        editDateBirth = findViewById(R.id.editDateBirth);
-
-        // Date picker for DOB
-        editDateBirth.setKeyListener(null); // make it non-typing to force picker
-        editDateBirth.setOnClickListener(v -> showDatePicker());
+        editPhone     = findViewById(R.id.editPhone);
 
         Button btnNext = findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
             String fname = safe(editFirstName);
             String lname = safe(editLastName);
-            String dob   = safe(editDateBirth); // can be yyyy-MM-dd (we format it in picker)
+            String phone = safe(editPhone);
 
             if (fname.isEmpty()) { toast("First name is required"); return; }
             if (lname.isEmpty()) { toast("Last name is required");  return; }
-            if (dob.isEmpty())   { toast("Date of birth is required"); return; }
+            if (phone.isEmpty()) { toast("Phone number is required"); return; }
 
             data.firstName   = fname;
             data.lastName    = lname;
-            data.dateOfBirth = dob;
+            data.phone = phone;
 
             Intent i = new Intent(this, SignUpPage3.class);
             i.putExtra("data", data);
@@ -62,23 +55,6 @@ public class SignupPage2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-
-    private void showDatePicker() {
-        final Calendar c = Calendar.getInstance();
-        int y = c.get(Calendar.YEAR);
-        int m = c.get(Calendar.MONTH);
-        int d = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog dp = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            // Format as yyyy-MM-dd
-            String mm = String.format("%02d", month + 1);
-            String dd = String.format("%02d", dayOfMonth);
-            editDateBirth.setText(year + "-" + mm + "-" + dd);
-        }, y, m, d);
-
-        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
-        dp.show();
     }
 
     private String safe(TextInputEditText t) {

@@ -17,7 +17,6 @@ public class AuthRepository {
     public void register(SignUPData d, Callback<APIResponse> cb) {
         // If DOB was MM/dd/yy, convert; if already yyyy-MM-dd, convertDob() returns same string
         String dob = convertDob(d.dateOfBirth);
-        int age = d.age == null ? 0 : d.age;
 
         Call<APIResponse> call = api.register(
                 d.username,
@@ -27,7 +26,11 @@ public class AuthRepository {
                 d.lastName,
                 dob,
                 d.address,
-                age,
+                d.sex,
+                d.typeOfId,
+                d.frontId,
+                d.backId,
+                d.categories,
                 d.phone == null ? "" : d.phone
         );
         call.enqueue(cb);

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutValidID"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            app:endIconMode="dropdown_menu"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/dropdownValidID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_bg_withcorner"
+                android:hint="Select ID"
+                android:inputType="none" />
+
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Hidden initially -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUploadFront"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="10dp"
+        android:text="Upload Front ID"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/greenKomyu"
+        app:cornerRadius="12dp"
+        app:iconSize="20dp"
+        app:iconPadding="-14dp"
+        app:icon="@drawable/upload_icon"
+        app:iconGravity="start"
+        app:iconTint="@color/greenKomyu"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUploadBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="10dp"
+        android:text="Upload Back ID"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="12dp"
+        app:iconSize="20dp"
+        app:iconPadding="-14dp"
+        android:layout_gravity="center"
+        app:icon="@drawable/upload_icon"
+        app:iconGravity="start"
+        app:iconTint="@color/greenKomyu"
+        app:strokeColor="@color/greenKomyu"
+        app:strokeWidth="2dp"
+        android:visibility="gone"/>
+
+
+
+
+    </LinearLayout>

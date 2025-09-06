@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupPage2"
+    tools:context=".SignUpPage4"
     android:background="@color/white">
 
     <View
@@ -13,26 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/greenKomyu"
-        app:layout_constraintBottom_toTopOf="@+id/formContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ImageView
-        android:id="@+id/imageViewLogo3"
+        android:id="@+id/imageViewLogo4"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="fitXY"
         android:src="@drawable/komyu_header_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/formContainer"
-        android:layout_width="0dp"
-        android:layout_height="492dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -55,123 +50,74 @@
             />
 
         <!-- Username Field -->
-
         <TextView
-            android:id="@+id/FirstNameTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            android:text="First Name"
-            android:textColor="@color/darkBlueKomyu"
-            android:textSize="20sp"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/white_bg_withcorner"
-                android:drawableStart="@drawable/username_icon"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:hint="First Name..."
-                android:textColor="@color/black"
-                android:padding="6dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/LastNameTitle"
+            android:id="@+id/txtAddID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="14dp"
-            android:text="Last Name"
+            android:text="Add Valid ID"
             android:textColor="@color/darkBlueKomyu"
             android:textSize="20sp"
             />
 
-
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_valid_id_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editLastName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/white_bg_withcorner"
-                android:drawableStart="@drawable/username_icon"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:hint="Last Name..."
-                android:textColor="@color/black"
-                android:padding="6dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="10dp"
+            tools:layout="@layout/fragment_valid_id"
+            />
 
         <TextView
-            android:id="@+id/PhoneNoTitle"
+            android:id="@+id/txtCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="14dp"
-            android:text="Phone Number"
+            android:text="Categories"
             android:textColor="@color/darkBlueKomyu"
             android:textSize="20sp"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_categories_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            app:hintEnabled="false"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editPhone"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/white_bg_withcorner"
-                android:drawableStart="@drawable/phone_num_icon"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:hint="63+"
-                android:textColor="@color/black"
-                android:padding="6dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="32dp"
+            tools:layout ="@layout/fragment_categories"
+             />
 
 
 
-        <!-- NEXT PAGE -->
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="110dp"
-            android:backgroundTint="@color/lightGreenKomyu"
-            android:textSize="18sp"
-            android:text="NEXT"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black" />
+
+
+        <!-- SUBMIT -->
+
+
 
 
 
         <!-- login redirect -->
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/lightGreenKomyu"
+        android:text="CONFIRM"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/greenKomyu" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
