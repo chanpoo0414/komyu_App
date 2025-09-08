@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
@@ -23,6 +24,8 @@ public class SignUpPage3 extends AppCompatActivity {
 
     private TextInputEditText editAddress, editDateBirth;
     private AutoCompleteTextView editSex;
+
+    private TextInputLayout layoutDateBirth, inputLayoutSex, layoutAddress;
     private SignUPData data;
 
     @Override
@@ -35,6 +38,10 @@ public class SignUpPage3 extends AppCompatActivity {
         editDateBirth = findViewById(R.id.editDateBirth);
         editAddress   = findViewById(R.id.editAddress);
         editSex       = findViewById(R.id.dropDownSex);
+
+        layoutDateBirth = findViewById(R.id.layoutDateBirth);
+        inputLayoutSex  = findViewById(R.id.inputLayoutSex);
+        layoutAddress   = findViewById(R.id.layoutAddress);
 
         // ✅ Now setup dropdown choices
         String[] sexOptions = getResources().getStringArray(R.array.sex_options);
@@ -87,10 +94,31 @@ public class SignUpPage3 extends AppCompatActivity {
         String sex     = safe(editSex);
         String dob     = safe(editDateBirth);
 
-        if (TextUtils.isEmpty(dob))     { toast("Date of birth is required"); return; }
-        if (TextUtils.isEmpty(sex))     { toast("Sex is required"); return; }
-        if (TextUtils.isEmpty(address)) { toast("Address is required"); return; }
+        boolean valid = true;
 
+        // Reset errors
+        layoutDateBirth.setError(null);
+        inputLayoutSex.setError(null);
+        layoutAddress.setError(null);
+
+        if (TextUtils.isEmpty(dob)) {
+            layoutDateBirth.setError("Date of birth is required");
+            valid = false;
+        }
+
+        if (TextUtils.isEmpty(sex)) {
+            inputLayoutSex.setError("Sex is required");
+            valid = false;
+        }
+
+        if (TextUtils.isEmpty(address)) {
+            layoutAddress.setError("Address is required");
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        // ✅ Save to data if valid
         data.address     = address;
         data.sex         = sex;
         data.dateOfBirth = dob;

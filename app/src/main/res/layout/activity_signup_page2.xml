@@ -32,7 +32,7 @@
     <LinearLayout
         android:id="@+id/formContainer"
         android:layout_width="0dp"
-        android:layout_height="492dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -68,6 +68,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -101,6 +102,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -133,6 +135,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -153,25 +156,23 @@
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-        <!-- NEXT PAGE -->
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="110dp"
-            android:backgroundTint="@color/lightGreenKomyu"
-            android:textSize="18sp"
-            android:text="NEXT"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black" />
-
-
-
         <!-- login redirect -->
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="52dp"
+        android:backgroundTint="@color/lightGreenKomyu"
+        android:text="NEXT"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

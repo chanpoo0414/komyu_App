@@ -14,10 +14,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText editUsername, editEmail, editPass, editComfirmPass;
+
+    private TextInputLayout LayoutUsername, LayoutEmail, LayoutPass, LayoutconfirmPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,13 @@ public class SignUpActivity extends AppCompatActivity {
         editPass         = findViewById(R.id.editPass);
         editComfirmPass  = findViewById(R.id.editComfirmPass);
 
+        LayoutUsername = findViewById(R.id.LayoutUsername);
+        LayoutEmail = findViewById(R.id.LayoutEmail);
+        LayoutPass = findViewById(R.id.LayoutPass);
+        LayoutconfirmPass = findViewById(R.id.LayoutconfirmPass);
+
+
+
         Button btnNext = findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
             String username = safe(editUsername);
@@ -37,29 +47,63 @@ public class SignUpActivity extends AppCompatActivity {
             String pass     = safe(editPass);
             String confirm  = safe(editComfirmPass);
 
+            boolean valid = true;
+
+            LayoutUsername.setError(null);
+            LayoutEmail.setError(null);
+            LayoutPass.setError(null);
+            LayoutconfirmPass.setError(null);
+
             // --- validation ---
+            // 🔹 Username validation
             if (TextUtils.isEmpty(username)) {
-                toast("Username is required"); return;
+                LayoutUsername.setError("Username is required");
+                LayoutUsername.setErrorIconDrawable(R.drawable.error);
+                valid = false;
             }
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                toast("Enter a valid email"); return;
+
+            // 🔹 Email validation
+            if (TextUtils.isEmpty(email)) {
+                LayoutEmail.setError("Email is required");
+                LayoutEmail.setErrorIconDrawable(R.drawable.error);
+                valid = false;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                LayoutEmail.setError("Enter a valid email");
+                LayoutEmail.setErrorIconDrawable(R.drawable.error);
+                valid = false;
             }
-            if (pass.length() < 6) {
-                toast("Password must be at least 6 characters"); return;
-            }
-            if (!pass.equals(confirm)) {
-                toast("Passwords do not match"); return;
+
+            // 🔹 Password validation
+            if (TextUtils.isEmpty(pass)) {
+                LayoutPass.setError("Password is required");
+                LayoutPass.setErrorIconDrawable(R.drawable.error);
+                valid = false;
+            } else if (pass.length() < 6) {
+                LayoutPass.setError("Password must be at least 6 characters");
+                LayoutPass.setErrorIconDrawable(R.drawable.error);
+                valid = false;
+            } else {
+                // 🔹 Confirm Password validation (only runs if password is valid length)
+                if (TextUtils.isEmpty(confirm)) {
+                    LayoutconfirmPass.setError("Confirm Password is required");
+                    valid = false;
+                } else if (!pass.equals(confirm)) {
+                    LayoutconfirmPass.setError("Passwords do not match");
+                    valid = false;
+                }
             }
 
             // pack into SignUPData and go to page 2
-            SignUPData data = new SignUPData();
-            data.username = username;
-            data.email    = email;
-            data.password = pass;
+            if (valid) {
+                SignUPData data = new SignUPData();
+                data.username = username;
+                data.email    = email;
+                data.password = pass;
 
-            Intent i = new Intent(this, SignupPage2.class);
-            i.putExtra("data", data);
-            startActivity(i);
+                Intent i = new Intent(this, SignupPage2.class);
+                i.putExtra("data", data);
+                startActivity(i);
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

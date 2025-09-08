@@ -2,7 +2,11 @@ package com.example.komyuapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +19,10 @@ public class SignUpPage4 extends AppCompatActivity implements SignUpPage4Listene
 
     private String selectedValidId = "";
     private String selectedCategory = "";
+
+    private TextView toastMessage;
+
+    private ImageView toastIcon;
     private MaterialButton btnSubmit;
     private SignUPData data;
 
@@ -59,7 +67,19 @@ public class SignUpPage4 extends AppCompatActivity implements SignUpPage4Listene
             data.backId = "back_id_mock.jpg";
 
             // For now, just mock success and go to MainPage
-            Toast.makeText(this, "Registration complete!", Toast.LENGTH_SHORT).show();
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.custom_toast, findViewById(android.R.id.content), false);
+
+            TextView toastMessage = layout.findViewById(R.id.toastMessage);
+            toastMessage.setText(getString(R.string.account_created)); // dynamic text
+
+            ImageView toastIcon = layout.findViewById(R.id.toastIcon);
+            toastIcon.setImageResource(R.drawable.komyu_header_logo); // your logo
+
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         });
