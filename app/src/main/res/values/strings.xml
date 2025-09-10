@@ -1,4 +1,28 @@
 <resources>
     <string name="app_name">Komyu Application</string>
     <string name="google_logo">Google logo</string>
+    <string name="komyu_logo_desc">Komyu logo</string>
+    <string name="account_created">Account created successfully!</string>
+
+    <string-array name="sex_options">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="valid_ids">
+        <item>Valid ID</item>
+        <item>Student ID</item>
+        <item>Senior Citizen ID</item>
+        <item>PWD ID</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Regular</item>
+        <item>Student</item>
+        <item>Senior</item>
+        <item>PWD</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

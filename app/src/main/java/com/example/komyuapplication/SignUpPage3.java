@@ -1,8 +1,13 @@
 package com.example.komyuapplication;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.text.TextUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +15,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Calendar;
+
 public class SignUpPage3 extends AppCompatActivity {
+
+    private TextInputEditText editAddress, editDateBirth;
+    private AutoCompleteTextView editSex;
+
+    private TextInputLayout layoutDateBirth, inputLayoutSex, layoutAddress;
+    private SignUPData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,17 +34,35 @@ public class SignUpPage3 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up_page3);
 
-        TextView goToLogin = findViewById(R.id.textGoTologin);
-        goToLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginFirstPage.class);
-            startActivity(intent);
-        });
+        // ✅ Always bind views FIRST
+        editDateBirth = findViewById(R.id.editDateBirth);
+        editAddress   = findViewById(R.id.editAddress);
+        editSex       = findViewById(R.id.dropDownSex);
 
-        TextView goBackToLogin = findViewById(R.id.btnNext);
-        goBackToLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginFirstPage.class);
-            startActivity(intent);
-        });
+        layoutDateBirth = findViewById(R.id.layoutDateBirth);
+        inputLayoutSex  = findViewById(R.id.inputLayoutSex);
+        layoutAddress   = findViewById(R.id.layoutAddress);
+
+        // ✅ Now setup dropdown choices
+        String[] sexOptions = getResources().getStringArray(R.array.sex_options);
+        ArrayAdapter<String> sexAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                sexOptions
+        );
+        editSex.setAdapter(sexAdapter);
+        editSex.setOnClickListener(v -> editSex.showDropDown());
+
+        // ✅ restore SignUPData
+        data = (SignUPData) getIntent().getSerializableExtra("data");
+        if (data == null) data = new SignUPData();
+
+        // ✅ disable keyboard on DOB, use DatePicker instead
+        editDateBirth.setKeyListener(null);
+        editDateBirth.setOnClickListener(v -> showDatePicker());
+
+        Button btnNext = findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(v -> goNext());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -36,4 +70,72 @@ public class SignUpPage3 extends AppCompatActivity {
             return insets;
         });
     }
+
+    private void showDatePicker() {
+        final Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dp = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            String mm = String.format("%02d", month + 1);
+            String dd = String.format("%02d", dayOfMonth);
+            String dob = year + "-" + mm + "-" + dd;
+            editDateBirth.setText(dob);
+
+        }, y, m, d);
+
+        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dp.show();
+    }
+
+    private void goNext() {
+        String address = safe(editAddress);
+        String sex     = safe(editSex);
+        String dob     = safe(editDateBirth);
+
+        boolean valid = true;
+
+        // Reset errors
+        layoutDateBirth.setError(null);
+        inputLayoutSex.setError(null);
+        layoutAddress.setError(null);
+
+        if (TextUtils.isEmpty(dob)) {
+            layoutDateBirth.setError("Date of birth is required");
+            valid = false;
+        }
+
+        if (TextUtils.isEmpty(sex)) {
+            inputLayoutSex.setError("Sex is required");
+            valid = false;
+        }
+
+        if (TextUtils.isEmpty(address)) {
+            layoutAddress.setError("Address is required");
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        // ✅ Save to data if valid
+        data.address     = address;
+        data.sex         = sex;
+        data.dateOfBirth = dob;
+
+        // move to SignupPage4 (not final submit yet)
+        Intent i = new Intent(this, SignUpPage4.class);
+        i.putExtra("data", data);
+        startActivity(i);
+    }
+
+    private String safe(TextInputEditText t) {
+        return t.getText() == null ? "" : t.getText().toString().trim();
+    }
+
+    private String safe(AutoCompleteTextView t) {
+        return t.getText() == null ? "" : t.getText().toString().trim();
+    }
+
+    private void toast(String m) { Toast.makeText(this, m, Toast.LENGTH_SHORT).show(); }
 }
