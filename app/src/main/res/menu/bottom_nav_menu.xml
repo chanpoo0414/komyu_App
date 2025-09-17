@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 🏠 Home -->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/home_black_icon" /> <!-- replace with your actual icon -->
+
+    <!-- 📜 Logs -->
+    <item
+        android:id="@+id/nav_logs"
+        android:title="Logs"
+        android:icon="@drawable/logs_black_icon" /> <!-- replace with your actual icon -->
+
+    <!-- ☰ Menu -->
+    <item
+        android:id="@+id/nav_menu"
+        android:title="Menu"
+        android:icon="@drawable/burgermenu_black_icon" /> <!-- replace with your actual icon -->
+
+</menu>

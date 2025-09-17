@@ -80,7 +80,7 @@ public class SignUpPage4 extends AppCompatActivity implements SignUpPage4Listene
             toast.setDuration(Toast.LENGTH_SHORT);
             toast.setView(layout);
             toast.show();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, CommuterDashboard.class));
             finish();
         });
     }

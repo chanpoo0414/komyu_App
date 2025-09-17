@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KomyuApplication">
         <activity
+            android:name=".CommuterDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".DriverDashboard"
+            android:exported="false" />
+        <activity
             android:name=".SignUpPage4"
             android:exported="false" />
         <activity
@@ -42,10 +48,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main/Home screen after login -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+        </activity>
     </application>
 
 </manifest>
