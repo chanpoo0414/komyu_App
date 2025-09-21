@@ -8,12 +8,13 @@ import retrofit2.http.POST;
 public interface APIService {
 
     @FormUrlEncoded
-    @POST("register.php") // keep this path if your PHP is in public_html/API/register.php
+    @POST("commuterRegister.php") // keep this path if your PHP is in public_html/API/register.php
     Call<APIResponse> register(
             @Field("Username") String username,
             @Field("Email") String email,
             @Field("Password") String password,
             @Field("First_name") String firstName,
+            @Field("Middle_name") String middleName,
             @Field("Last_name") String lastName,
             @Field("Date_Of_Birth") String dateOfBirth,
             @Field("Address") String address,

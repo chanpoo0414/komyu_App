@@ -1,6 +1,6 @@
 package com.example.komyuapplication;
 
 public class APIResponse {
-    public boolean success;
+    public int success;
     public String message;
 }

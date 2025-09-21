@@ -7,6 +7,7 @@ public class SignUPData implements Serializable{
     public String email;
     public String password;
     public String firstName;
+    public String middleName;
     public String lastName;
     public String dateOfBirth;
     public String address;

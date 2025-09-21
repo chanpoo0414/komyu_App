@@ -1,0 +1,6 @@
+<!-- res/drawable/oval_green.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/bgGrey" />
+    <size android:width="56dp" android:height="56dp" />
+</shape>

@@ -124,7 +124,7 @@ public class SignUpPage3 extends AppCompatActivity {
         data.dateOfBirth = dob;
 
         // move to SignupPage4 (not final submit yet)
-        Intent i = new Intent(this, SignUpPage4.class);
+        Intent i = new Intent(this, SignUpPageFinal4.class);
         i.putExtra("data", data);
         startActivity(i);
     }

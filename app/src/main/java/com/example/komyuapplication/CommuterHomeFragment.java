@@ -25,6 +25,9 @@ public class CommuterHomeFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         // Build sample data (replace with your real data source)
+
+
+
         List<RecentActivityAdapter.Item> data = new ArrayList<>();
         RecentActivityAdapter.Item it1 = new RecentActivityAdapter.Item();
         it1.title = "Trip to SM City";
@@ -60,6 +63,17 @@ public class CommuterHomeFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+//        @Override
+//        public void onResume() {
+//            super.onResume();
+//            // Start ZXing scan (for fragment)
+//            IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
+//            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+//            integrator.setPrompt("Scan commuter QR");
+//            integrator.setBeepEnabled(true);
+//            integrator.setOrientationLocked(false);
+//            integrator.initiateScan();
+//        }
 
         // other buttons (buy load etc.) can be wired similarly
         return root;

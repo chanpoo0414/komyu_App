@@ -69,14 +69,18 @@ public class ValidIdFragment extends Fragment {
             setUploadButtonsVisible(show);
         });
 
-        // ✅ Handle upload button clicks (mock for now)
         btnUploadFront.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Front ID uploaded (mock)", Toast.LENGTH_SHORT).show();
+            if (getActivity() instanceof SignUpPage4) {
+                ((SignUpPage4) getActivity()).openImagePicker("front"); // or show a choice dialog to use camera
+            }
         });
 
         btnUploadBack.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Back ID uploaded (mock)", Toast.LENGTH_SHORT).show();
+            if (getActivity() instanceof SignUpPage4) {
+                ((SignUpPage4) getActivity()).openImagePicker("back");
+            }
         });
+
 
         return view;
     }

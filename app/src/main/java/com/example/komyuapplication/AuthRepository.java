@@ -23,6 +23,7 @@ public class AuthRepository {
                 d.email,
                 d.password,
                 d.firstName,
+                d.middleName,
                 d.lastName,
                 dob,
                 d.address,

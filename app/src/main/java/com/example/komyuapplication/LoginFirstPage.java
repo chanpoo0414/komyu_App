@@ -75,7 +75,7 @@ public class LoginFirstPage extends AppCompatActivity {
                     }
 
                     APIResponse res = response.body();
-                    if (res.success) {
+                    if (res.success == 1) {
                         Toast.makeText(LoginFirstPage.this, "Login successful!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
                         finish();

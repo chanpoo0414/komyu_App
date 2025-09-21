@@ -31,8 +31,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="4dp"
-                    android:src="@drawable/ic_profile_placeholder"
-                    android:background="@drawable/oval_white"
+                    android:src="@drawable/username_icon"
+                    android:background="@drawable/card_and_location_bg_grey"
                     android:scaleType="centerCrop" />
 
                 <TextView
@@ -58,12 +58,14 @@
                     android:id="@+id/btn_wallet"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
                     android:text="Wallet"
                     android:textAllCaps="false"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/greenKomyu" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:cornerRadius="50dp" />
 
                 <Space
                     android:layout_width="12dp"
@@ -74,12 +76,13 @@
                     android:id="@+id/btn_topup"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
                     android:text="Top Up"
                     android:textAllCaps="false"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    app:cornerRadius="50dp" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -104,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:padding="16dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="4dp"
                 android:backgroundTint="@color/white">
 
@@ -142,7 +145,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="18dp"
                         android:backgroundTint="@color/lightGreenKomyu"
-                        android:text="Buy Load"
+                        android:text="Buy Points"
                         app:cornerRadius="8dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -153,14 +156,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:padding="16dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="4dp"
-                android:backgroundTint="@color/white">
+                android:backgroundTint="@color/white"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    >
 
                     <!-- Quick Actions Title -->
                     <TextView
@@ -170,6 +175,8 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="12dp" />
 
                     <!-- Quick Actions Row -->
@@ -177,17 +184,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:layout_marginHorizontal="16dp">
 
                         <!-- Scan & Pay -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/btn_scan_pay"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/black"
                             app:strokeWidth="1dp"
+                            app:strokeColor="@color/lightblack"
+                            android:backgroundTint="@color/white"
                             android:clickable="true"
                             android:focusable="true">
 
@@ -199,16 +209,20 @@
                                 android:padding="12dp">
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:padding="6dp"
                                     android:src="@drawable/qr_outline_icon"
+                                    android:background="@drawable/qr_scanner_bg"
+                                    android:scaleType="centerCrop"
                                     android:contentDescription="@string/app_name" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:text="Scan & Pay"
+                                    android:text="Scan &amp; Pay"
+                                    android:textStyle="bold"
                                     android:textSize="14sp"
                                     android:textColor="@android:color/black" />
                             </LinearLayout>
@@ -216,13 +230,16 @@
 
                         <!-- Terminals -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/btn_terminals"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/black"
+                            app:strokeColor="@color/lightblack"
+                            android:backgroundTint="@color/white"
                             app:strokeWidth="1dp"
+                            android:background="@color/white"
                             android:clickable="true"
                             android:focusable="true">
 
@@ -234,16 +251,20 @@
                                 android:padding="12dp">
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_terminal"
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:src="@drawable/location_outline_icon"
+                                    android:background="@drawable/location_bg"
+                                    android:scaleType="centerCrop"
+                                    android:padding="6dp"
                                     android:contentDescription="@string/app_name" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:text="Terminals"
+                                    android:text="View Terminals"
+                                    android:textStyle="bold"
                                     android:textSize="14sp"
                                     android:textColor="@android:color/black" />
                             </LinearLayout>
@@ -259,6 +280,7 @@
                         android:textSize="16sp"
                         android:textColor="@android:color/black"
                         android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginBottom="12dp" />
 
                     <!-- Travel Overview Row -->
@@ -266,7 +288,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="24dp">
 
                         <!-- Total Points Spent -->
                         <com.google.android.material.card.MaterialCardView
@@ -275,7 +299,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/black"
+                            app:strokeColor="@color/lightblack"
+                            android:backgroundTint="@color/white"
                             app:strokeWidth="1dp">
 
                             <LinearLayout
@@ -286,18 +311,36 @@
                                 android:padding="12dp">
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_wallet"
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:padding="6dp"
+                                    android:background="@drawable/card_and_location_bg_grey"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/card_outline"
                                     android:contentDescription="@string/app_name" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="₱98.00\nTotal points spent"
-                                    android:textSize="14sp"
-                                    android:textColor="@android:color/black" />
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="98.00"
+                                        android:textStyle="bold"
+                                        android:textSize="14sp"
+                                        android:textColor="@android:color/black" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="Total Points Spent"
+                                        android:textSize="10sp"
+                                        android:textColor="@android:color/black" />
+                                </LinearLayout>
+
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
@@ -308,7 +351,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/black"
+                            app:strokeColor="@color/lightblack"
+                            android:backgroundTint="@color/white"
                             app:strokeWidth="1dp">
 
                             <LinearLayout
@@ -319,18 +363,34 @@
                                 android:padding="12dp">
 
                                 <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_clock"
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:padding="6dp"
+                                    android:background="@drawable/card_and_location_bg_grey"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/clock_outline_icon"
                                     android:contentDescription="@string/app_name" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="8\nTrips this week"
-                                    android:textSize="14sp"
-                                    android:textColor="@android:color/black" />
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="8"
+                                        android:textStyle="bold"
+                                        android:textSize="14sp"
+                                        android:textColor="@android:color/black" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="Trips this week"
+                                        android:textSize="10sp"
+                                        android:textColor="@android:color/black" />
+                                </LinearLayout>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -343,7 +403,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="4dp"
                 android:backgroundTint="@color/white">
 
