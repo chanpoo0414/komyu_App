@@ -16,9 +16,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class SignupPage2 extends AppCompatActivity {
 
-    private TextInputEditText editFirstName, editLastName, editPhone;
+    private TextInputEditText editFirstName, editMiddleName, editLastName, editPhone;
 
-    private TextInputLayout layoutFirstName, layoutLastName, layoutPhone;
+    private TextInputLayout layoutFirstName, layoutMiddleName, layoutLastName, layoutPhone;
     private SignUPData data;
 
     @Override
@@ -31,10 +31,12 @@ public class SignupPage2 extends AppCompatActivity {
         if (data == null) data = new SignUPData();
 
         editFirstName = findViewById(R.id.editFirstName);
+        editMiddleName = findViewById(R.id.editMiddleName);
         editLastName  = findViewById(R.id.editLastName);
         editPhone     = findViewById(R.id.editPhone);
 
        layoutFirstName = findViewById(R.id.layoutFirstName);
+       layoutMiddleName = findViewById(R.id.layoutMiddleName);
        layoutLastName  = findViewById(R.id.layoutLastName);
        layoutPhone     = findViewById(R.id.layoutPhone);
 
@@ -43,6 +45,7 @@ public class SignupPage2 extends AppCompatActivity {
 
         btnNext.setOnClickListener(v -> {
             String fname = safe(editFirstName);
+            String mname = safe(editMiddleName);
             String lname = safe(editLastName);
             String phone = safe(editPhone);
 
@@ -64,6 +67,7 @@ public class SignupPage2 extends AppCompatActivity {
                 layoutFirstName.setErrorIconDrawable(R.drawable.error);
                 valid = false;
             }
+
 
             // 🔹 Validate last name
             if (lname.isEmpty()) {
@@ -89,6 +93,7 @@ public class SignupPage2 extends AppCompatActivity {
 
             if (valid) {
                 data.firstName = fname;
+                data.middleName = mname;
                 data.lastName = lname;
                 data.phone = phone;
 

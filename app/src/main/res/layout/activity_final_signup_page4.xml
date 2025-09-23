@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpPage4"
+    tools:context=".FinalSignupPage4"
     android:background="@color/white">
 
     <View
@@ -14,6 +14,7 @@
         android:layout_height="200dp"
         android:background="@color/greenKomyu"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:id="@+id/imageViewLogo4"
@@ -24,14 +25,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Scrollable container -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"
+        android:src="@drawable/back_button_icon2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Bottom login redirect -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/ViewLogoHeader"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ViewLogoHeader"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:id="@+id/formContainer"
@@ -61,73 +78,30 @@
                 android:textColor="@color/darkBlueKomyu"
                 android:textSize="20sp" />
 
+
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_valid_id_container"
+                android:name="com.example.komyuapplication.ValidIdFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="10dp"
-                tools:layout="@layout/fragment_valid_id" />
-
-            <!-- Status labels -->
-            <TextView
-                android:id="@+id/tvFrontStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:text="Front ID: not uploaded"
-                android:textSize="14sp"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/tvBackStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="Back ID: not uploaded"
-                android:textSize="14sp"
-                android:textColor="@color/black" />
-
-            <!-- Front & Back Image Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="12dp"
-                android:layout_marginHorizontal="24dp">
-
-                <ImageButton
-                    android:id="@+id/btnFrontId"
-                    android:layout_width="124dp"
-                    android:layout_height="71dp"
-                    android:contentDescription="Front ID"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_button" />
-
-                <ImageButton
-                    android:id="@+id/btnBackId"
-                    android:layout_width="119dp"
-                    android:layout_height="71dp"
-                    android:layout_marginStart="16dp"
-                    android:contentDescription="Back ID"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_button" />
-            </LinearLayout>
-
+                android:layout_marginBottom="32dp"
+                tools:layout="@layout/fragment_categories" />
             <!-- Categories -->
             <TextView
                 android:id="@+id/txtCategories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Categories"
                 android:textColor="@color/darkBlueKomyu"
                 android:textSize="20sp" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_categories_container"
+                android:name="com.example.komyuapplication.CategoriesFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -149,7 +123,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom login redirect -->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -179,4 +152,5 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

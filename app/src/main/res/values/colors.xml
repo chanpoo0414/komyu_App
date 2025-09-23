@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="lightblack">#7A7A7A</color>
+    <color name="lightblack2">#424242</color>
+    <color name="lightGrey">#E6E6E6</color>
     <color name="white">#FFFFFFFF</color>
     <color name="greenKomyu">#0DD85F</color>
     <color name="whiteKomyu">#FBFFFC</color>
@@ -11,6 +13,7 @@
     <color name="Lightorange">#FFBA4C</color>
     <color name="grey">#F0F0F0</color>
     <color name="bgGrey">#EFEFEF</color>
+    <color name="RedLogout">#E7000B</color>
 
 
 </resources>

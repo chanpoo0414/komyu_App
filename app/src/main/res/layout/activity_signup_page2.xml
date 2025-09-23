@@ -76,8 +76,6 @@
             app:hintEnabled="false"
             >
 
-
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editFirstName"
                 android:layout_width="match_parent"
@@ -90,6 +88,8 @@
                 android:textColor="@color/black"
                 android:padding="6dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <TextView
             android:id="@+id/MiddleNameTitle"
@@ -111,7 +111,7 @@
             app:hintEnabled="false"
             >
 
-            <com.google.android.material.textfield.TextInputEditText
+             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editMiddleName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

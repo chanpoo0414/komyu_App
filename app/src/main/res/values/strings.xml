@@ -9,8 +9,9 @@
         <item>Female</item>
     </string-array>
 
+
     <string-array name="valid_ids">
-        <item>Valid ID</item>
+        <item>Government Valid ID</item>
         <item>Student ID</item>
         <item>Senior Citizen ID</item>
         <item>PWD ID</item>

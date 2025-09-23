@@ -40,7 +40,7 @@ public class LoginFirstPage extends AppCompatActivity {
         signup.setOnClickListener(v ->
                 startActivity(new Intent(this, SignUpActivity.class)));
 
-        // Login via API (no more hardcoded creds)
+        // Login
         btnSignIn.setOnClickListener(v -> {
             String username = editUsername.getText() == null ? "" : editUsername.getText().toString().trim();
             String password = editPassword.getText() == null ? "" : editPassword.getText().toString().trim();
@@ -50,20 +50,15 @@ public class LoginFirstPage extends AppCompatActivity {
                 return;
             }
 
-
-            // 🔹 Dummy Accounts (for testing without DB)
-            if (username.equals("commuter888") && password.equals("123456")) {
-                Toast.makeText(this, "Commuter Login", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
-                finish();
-                return;
-            } else if (username.equals("driver444") && password.equals("123456")) {
-                Toast.makeText(this, "Driver Login", Toast.LENGTH_SHORT).show();
+            // 🔹 Keep Driver Dummy
+            if (username.equals("driver444") && password.equals("123456")) {
+                Toast.makeText(this, "Driver Login (dummy)", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(LoginFirstPage.this, DriverDashboard.class));
                 finish();
                 return;
             }
 
+            // 🔹 All commuters must go through API
             APIService api = APIClient.getInstance().create(APIService.class);
             Call<APIResponse> call = api.login(username, password);
             call.enqueue(new Callback<APIResponse>() {
@@ -80,7 +75,9 @@ public class LoginFirstPage extends AppCompatActivity {
                         startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
                         finish();
                     } else {
-                        Toast.makeText(LoginFirstPage.this, res.message == null ? "Invalid credentials" : res.message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginFirstPage.this,
+                                res.message == null ? "Invalid credentials" : res.message,
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 

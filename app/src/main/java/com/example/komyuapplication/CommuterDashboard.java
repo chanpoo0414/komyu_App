@@ -1,14 +1,18 @@
 package com.example.komyuapplication;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.content.Intent;
+import android.os.Handler;
+import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import android.view.View;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CommuterDashboard extends AppCompatActivity {
 
@@ -21,10 +25,22 @@ public class CommuterDashboard extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Make bottom nav respect system bars (especially gesture/nav bar)
+        // Remove background and ripple effects
+        bottomNav.setItemBackgroundResource(android.R.color.transparent);
+        bottomNav.setItemRippleColor(ColorStateList.valueOf(Color.TRANSPARENT));
+
+        // Make bottom nav respect system bars
         ViewCompat.setOnApplyWindowInsetsListener(bottomNav, (v, insets) -> {
             Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), sys.bottom);
+
+            // Remove any background drawable
+            if (v.getBackground() != null) {
+                v.getBackground().setColorFilter(
+                        ContextCompat.getColor(CommuterDashboard.this, R.color.whiteKomyu),
+                        PorterDuff.Mode.SRC
+                );
+            }
             return insets;
         });
 
@@ -47,6 +63,16 @@ public class CommuterDashboard extends AppCompatActivity {
             return true;
         });
 
+        // Force refresh menu items after a short delay
+        new Handler().postDelayed(() -> {
+            for (int i = 0; i < bottomNav.getMenu().size(); i++) {
+                MenuItem item = bottomNav.getMenu().getItem(i);
+                if (item.isChecked()) {
+                    item.setChecked(true); // Force refresh
+                }
+            }
+        }, 100);
+
         // Load default fragment on first create
         if (savedInstanceState == null) {
             bottomNav.setSelectedItemId(R.id.nav_home);
@@ -54,19 +80,6 @@ public class CommuterDashboard extends AppCompatActivity {
                     .beginTransaction()
                     .replace(R.id.fragment_container, new CommuterHomeFragment())
                     .commit();
-        }
-    }
-
-    // Forward activity results (e.g., ZXing IntentIntegrator) to the fragment currently shown
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (frag instanceof ScannerFragment) {
-            ((ScannerFragment) frag).handleActivityResult(requestCode, resultCode, data);
-        } else if (frag != null) {
-            // If some other fragment needs it, you can forward similarly.
-            frag.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

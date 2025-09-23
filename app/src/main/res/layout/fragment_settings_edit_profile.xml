@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".SettingsEditProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Top Toolbar -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/greenKomyu"
+            style="@style/FixedAppBarStyle"
+            app:elevation="0dp"
+            app:liftOnScroll="false">
+
+            <!-- Profile -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+            <!-- Profile -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/back_button_icon2"
+                        android:contentDescription="Back" />
+
+                    <TextView
+                        android:id="@+id/text_edit_profile_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edit Profile"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:layout_marginStart="16dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <!-- Profile Picture Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:layout_marginHorizontal="12dp">
+
+            <ImageButton
+                android:id="@+id/btn_edit_profile_picture"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/add_picture_outline_icon"
+                android:scaleType="centerInside"
+                android:contentDescription="Edit Profile Picture" />
+
+            <TextView
+                android:id="@+id/text_change_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap to change profile photo"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Personal Information Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="12dp"
+            android:backgroundTint="@color/whiteKomyu"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="18dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/text_personal_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PERSONAL INFORMATION"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Full Name"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Asherah Maye Amancio"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="username"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email Address"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:text="asherah.amancio@email.com"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:text="+63 912 345 6789"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Home Address"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
+                    android:text="123 Main Street, City"
+                    android:background="@android:drawable/edit_text" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Emergency Contact Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="12dp"
+            android:backgroundTint="@color/whiteKomyu"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="18dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/text_emergency_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMERGENCY CONTACT"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Name"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_emergency_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Jane Amancio"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Number"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_emergency_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:text="+63 917 654 3210"
+                    android:background="@android:drawable/edit_text"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Relationship"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edit_emergency_relationship"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text="Mother"
+                    android:background="@android:drawable/edit_text" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btn_save_changes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="Save Changes"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/greenKomyu"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>

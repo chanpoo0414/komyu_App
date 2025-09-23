@@ -112,6 +112,7 @@
                 android:background="@drawable/white_bg_withcorner"
                 android:hint="Sex"
                 android:inputType="text"
+                android:textColor="@color/black"
                 android:cursorVisible="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 

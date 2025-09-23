@@ -21,16 +21,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KomyuApplication">
         <activity
-            android:name=".SignUpPageFinal4"
+            android:name=".DriverSignupPage"
+            android:exported="false" />
+        <activity
+            android:name=".SignupPageRole"
+            android:exported="false" />
+        <activity
+            android:name=".FinalSignupPage4"
             android:exported="false" />
         <activity
             android:name=".CommuterDashboard"
             android:exported="false" />
         <activity
             android:name=".DriverDashboard"
-            android:exported="false" />
-        <activity
-            android:name=".SignUpPage4"
             android:exported="false" />
         <activity
             android:name=".ForgetPasswordP2"

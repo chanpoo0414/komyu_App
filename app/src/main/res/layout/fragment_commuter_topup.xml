@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey">
+
+    <!-- Fixed Header -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/greenKomyu"
+        style="@style/FixedAppBarStyle"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+            <!-- Profile -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Profile -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:id="@+id/imgProfileIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/profile_bg_white"
+                    android:padding="8dp"
+                    android:src="@drawable/username_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFullName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Asherah Maye Amancio"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvStudentId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="000-044-02"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvUserRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Student"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Wallet + Top Up buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+
+                <!-- Wallet = selected -->
+                <Button
+                    android:id="@+id/btn_wallet"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/greenKomyu"
+                    android:text="Wallet"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="1dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="50dp" />
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+                <!-- Top Up = active -->
+                <Button
+                    android:id="@+id/btn_topup"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="Top Up"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="50dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Scrollable Body -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ID Input Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="26dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enter your ID"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_input_ID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxStrokeColor="@color/greenKomyu">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/white_bg_withcorner"
+                            android:inputType="text"
+                            android:hint="000-001-25"
+                            android:textColor="@color/black"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Custom Amount Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="26dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Custom Amount"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="16dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_custom_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxStrokeColor="@color/grey"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_custom_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Enter amount"
+                            android:background="@drawable/white_bg_withcorner"
+                            android:textColor="@color/black"
+                            android:padding="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Points Grid -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Or select from options:"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                        android:layout_marginBottom="8dp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="3"
+                        android:alignmentMode="alignMargins"
+                        android:columnOrderPreserved="false"
+                        android:rowOrderPreserved="false"
+                        android:padding="4dp">
+
+                        <!-- Row 1 -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_20"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="0"
+                            android:layout_column="0"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_20"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="20"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_40"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="0"
+                            android:layout_column="1"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_40"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="40"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_80"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="0"
+                            android:layout_column="2"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_80"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="80"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Row 2 -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_100"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="1"
+                            android:layout_column="0"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_100"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="100"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_250"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="1"
+                            android:layout_column="1"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_250"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="250"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_500"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="1"
+                            android:layout_column="2"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_500"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="500"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Row 3 -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_800"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="2"
+                            android:layout_column="0"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_800"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="800"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_1000"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="2"
+                            android:layout_column="1"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_1000"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1000"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_points_1500"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_margin="4dp"
+                            android:layout_row="2"
+                            android:layout_column="2"
+                            android:layout_columnWeight="1"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tv_points_1500"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1500"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="POINTS"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/lightblack" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </GridLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Counter Selection Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="26dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choose counter to pay"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- RadioGroup for proper single selection -->
+                    <RadioGroup
+                        android:id="@+id/radio_group_counters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Counter 1 -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_counter1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="1dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:gravity="center_vertical"
+                                android:onClick="onCounter1Clicked">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/terminal_loc_icon"
+                                    android:layout_marginEnd="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Counter 1"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Terminal 1 • SM Seaside"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/lightblack" />
+                                </LinearLayout>
+
+                                <RadioButton
+                                    android:id="@+id/radio_counter1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/greenKomyu" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Counter 2 -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_counter2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="1dp"
+                            android:backgroundTint="@color/white"
+                            app:strokeColor="@color/lightblack"
+                            app:strokeWidth="1dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="onCounter2Clicked">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:gravity="center_vertical">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/terminal_loc_icon"
+                                    android:layout_marginEnd="12dp" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Counter 2"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/black" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Terminal 2 • SM City"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/lightblack" />
+                                </LinearLayout>
+
+                                <RadioButton
+                                    android:id="@+id/radio_counter2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:buttonTint="@color/greenKomyu" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </RadioGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Proceed Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_proceed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/lightblack"
+                android:text="PROCEED TO PAYMENT"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                android:paddingVertical="14dp"
+                android:enabled="false" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

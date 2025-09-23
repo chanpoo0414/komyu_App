@@ -1,25 +1,24 @@
 package com.example.komyuapplication;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.button.MaterialButton;
-
 public class ValidIdFragment extends Fragment {
 
     private AutoCompleteTextView dropdownValidID;
-    private MaterialButton btnUploadFront;
-    private MaterialButton btnUploadBack;
+    private ImageButton frontImageBtn;
+    private ImageButton backImageBtn;
 
     private SignUpPage4Listener listener;
 
@@ -42,12 +41,12 @@ public class ValidIdFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_valid_id, container, false);
 
         dropdownValidID = view.findViewById(R.id.dropdownValidID);
-        btnUploadFront = view.findViewById(R.id.btnUploadFront);
-        btnUploadBack = view.findViewById(R.id.btnUploadBack);
+        frontImageBtn = view.findViewById(R.id.frontImagebtn);
+        backImageBtn = view.findViewById(R.id.backImagebtn);
 
         // hidden initially
-        btnUploadFront.setVisibility(View.GONE);
-        btnUploadBack.setVisibility(View.GONE);
+        frontImageBtn.setVisibility(View.GONE);
+        backImageBtn.setVisibility(View.GONE);
 
         // load choices
         String[] validIds = getResources().getStringArray(R.array.valid_ids);
@@ -64,23 +63,23 @@ public class ValidIdFragment extends Fragment {
             String selected = dropdownValidID.getText().toString().trim();
             if (listener != null) listener.onValidIdSelected(selected);
 
-            // show buttons when something is selected
+            // show image buttons when something is selected
             boolean show = selected != null && !selected.isEmpty();
             setUploadButtonsVisible(show);
         });
 
-        btnUploadFront.setOnClickListener(v -> {
-            if (getActivity() instanceof SignUpPage4) {
-                ((SignUpPage4) getActivity()).openImagePicker("front"); // or show a choice dialog to use camera
+        // click listeners for image buttons
+        frontImageBtn.setOnClickListener(v -> {
+            if (getActivity() instanceof FinalSignupPage4) {
+                ((FinalSignupPage4) getActivity()).openImagePicker("front");
             }
         });
 
-        btnUploadBack.setOnClickListener(v -> {
-            if (getActivity() instanceof SignUpPage4) {
-                ((SignUpPage4) getActivity()).openImagePicker("back");
+        backImageBtn.setOnClickListener(v -> {
+            if (getActivity() instanceof FinalSignupPage4) {
+                ((FinalSignupPage4) getActivity()).openImagePicker("back");
             }
         });
-
 
         return view;
     }
@@ -91,8 +90,21 @@ public class ValidIdFragment extends Fragment {
         listener = null;
     }
 
-    public void setUploadButtonsVisible(boolean visible) {
-        if (btnUploadFront != null) btnUploadFront.setVisibility(visible ? View.VISIBLE : View.GONE);
-        if (btnUploadBack != null) btnUploadBack.setVisibility(visible ? View.VISIBLE : View.GONE);
+    private void setUploadButtonsVisible(boolean visible) {
+        if (frontImageBtn != null) frontImageBtn.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (backImageBtn != null) backImageBtn.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    // --- new methods to update previews after selection ---
+    public void updateFrontImage(Uri imageUri) {
+        if (frontImageBtn != null && imageUri != null) {
+            frontImageBtn.setImageURI(imageUri);
+        }
+    }
+
+    public void updateBackImage(Uri imageUri) {
+        if (backImageBtn != null && imageUri != null) {
+            backImageBtn.setImageURI(imageUri);
+        }
     }
 }

@@ -5,4 +5,5 @@ interface SignUpPage4Listener {
     void onValidIdSelected(String id);
 
     void onRoleSelected(String role);
+
 }

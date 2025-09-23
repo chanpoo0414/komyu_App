@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/greenKomyu"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:theme="@style/AppBarLightTheme"
+        style="@style/FixedAppBarStyle"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,27 +26,49 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:padding="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="4dp"
-                    android:src="@drawable/username_icon"
-                    android:background="@drawable/card_and_location_bg_grey"
-                    android:scaleType="centerCrop" />
+                    android:id="@+id/imgProfileIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/profile_bg_white"
+                    android:padding="8dp"
+                    android:src="@drawable/username_icon" />
 
-                <TextView
-                    android:id="@+id/tv_username"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="username123"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFullName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Asherah Maye Amancio"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvStudentId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="000-044-02"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvUserRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Student"
+                        android:textColor="@color/whiteKomyu"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- Wallet + Top Up buttons -->
@@ -54,7 +79,7 @@
                 android:layout_marginTop="12dp">
 
                 <!-- Wallet = selected -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_wallet"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
@@ -72,16 +97,19 @@
                     android:layout_height="wrap_content" />
 
                 <!-- Top Up = inactive -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_topup"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="@color/greenKomyu"
                     android:text="Top Up"
+                    android:textStyle="bold"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="1dp"
                     app:cornerRadius="50dp" />
             </LinearLayout>
         </LinearLayout>
@@ -90,11 +118,13 @@
     <!-- Scrollable Body -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:padding="16dp"
+        android:backgroundTint="@color/bgGrey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <!-- ... rest of your content remains exactly the same ... -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +168,7 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="12dp" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_buy_load"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -149,7 +179,6 @@
                         app:cornerRadius="8dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
             <!-- Quick Actions + Travel Overview (Second Card) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -325,6 +354,7 @@
                                     android:orientation="vertical">
 
                                     <TextView
+                                        android:id="@+id/tv_total_points_value"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
@@ -376,6 +406,7 @@
                                     android:orientation="vertical">
 
                                     <TextView
+                                        android:id="@+id/tv_trip_count_value"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
@@ -421,7 +452,7 @@
                         android:layout_marginHorizontal="12dp">
 
                         <TextView
-                            android:layout_width="292dp"
+                            android:layout_width="265dp"
                             android:layout_height="wrap_content"
                             android:text="Recent Activity"
                             android:textColor="@android:color/black"

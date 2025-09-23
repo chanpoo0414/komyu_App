@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SegoeLight">
-        <item name="android:fontFamily">@font/segoe_family</item>
+
+    <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemBackground">@null</item>
+        <item name="itemRippleColor">@android:color/transparent</item>
+        <item name="android:background">@color/whiteKomyu</item>
     </style>
 
-    <style name="SegoeRegular">
-        <item name="android:fontFamily">@font/segoe_family</item>
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorAccent">@color/greenKomyu</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:background">@color/white</item>
     </style>
 
-    <style name="SegoeSemibold">
-        <item name="android:fontFamily">@font/segoe_family</item>
+    <style name="AppBarLightTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="colorPrimary">@color/greenKomyu</item>
+        <item name="colorPrimaryDark">@color/greenKomyu</item>
+        <item name="colorAccent">@color/greenKomyu</item>
     </style>
 
-    <style name="SegoeBold">
-        <item name="android:fontFamily">@font/segoe_family</item>
-    </style>
-
-    <style name="SegoeExtraBold">
-        <item name="android:fontFamily">@font/segoe_family</item>
+    <style name="FixedAppBarStyle" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">@color/greenKomyu</item>
+        <item name="backgroundTint">@color/greenKomyu</item>
+        <item name="elevation">0dp</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
 </resources>
