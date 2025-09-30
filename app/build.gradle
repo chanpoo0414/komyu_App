@@ -31,6 +31,7 @@ android {
 
 dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation libs.swiperefreshlayout
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
     // CORRECT: Google Play Services Barcode Scanner API (matches your code)

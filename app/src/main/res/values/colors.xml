@@ -14,6 +14,6 @@
     <color name="grey">#F0F0F0</color>
     <color name="bgGrey">#EFEFEF</color>
     <color name="RedLogout">#E7000B</color>
-
+    <color name="GreenBgLogs">#B9FFD5</color>
 
 </resources>

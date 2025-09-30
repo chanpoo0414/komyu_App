@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/grey">
+
+    <!-- Green Header -->
+    <RelativeLayout
+        android:id="@+id/header_transactionDetails"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@color/greenKomyu">
+
+        <!-- Back button -->
+        <ImageView
+            android:id="@+id/btn_back_transactionDetails"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/back_button_icon2"
+            app:tint="@android:color/white"
+            android:contentDescription="Back Button" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_transactionDetails_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Transaction Details"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_transactionDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="30dp"
+                android:layout_marginHorizontal="30dp">
+
+                <!-- Top: Icon + Title -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/icon_transactionDetails"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/logs_icon_circlebg"
+                        android:padding="8dp"
+                        android:src="@drawable/plus_points_icon"
+                        android:contentDescription="Transaction Icon"/>
+
+                    <TextView
+                        android:id="@+id/tv_transactionDetails_mainTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Points Purchase"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"/>
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <!-- Amount -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Amount:"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_transactionDetails_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+50.00"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/holo_green_dark"/>
+                </LinearLayout>
+
+                <!-- Counter -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Counter:"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_transactionDetails_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lightblack2"
+                        android:text="Counter 1 - Terminal 1 SM City"/>
+                </LinearLayout>
+
+                <!-- Date & Time -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Date &amp; Time:"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_transactionDetails_datetime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lightblack2"
+                        android:text="Sep 28, 2025 10:31 PM"/>
+                </LinearLayout>
+
+                <!-- Transaction Number -->
+                <TextView
+                    android:id="@+id/tv_transactionDetails_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_gravity="center"
+                    android:text="Transaction Number: ASD092352824"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</LinearLayout>

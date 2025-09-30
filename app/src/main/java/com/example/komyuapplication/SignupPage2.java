@@ -35,11 +35,10 @@ public class SignupPage2 extends AppCompatActivity {
         editLastName  = findViewById(R.id.editLastName);
         editPhone     = findViewById(R.id.editPhone);
 
-       layoutFirstName = findViewById(R.id.layoutFirstName);
-       layoutMiddleName = findViewById(R.id.layoutMiddleName);
-       layoutLastName  = findViewById(R.id.layoutLastName);
-       layoutPhone     = findViewById(R.id.layoutPhone);
-
+        layoutFirstName = findViewById(R.id.layoutFirstName);
+        layoutMiddleName = findViewById(R.id.layoutMiddleName);
+        layoutLastName  = findViewById(R.id.layoutLastName);
+        layoutPhone     = findViewById(R.id.layoutPhone);
 
         Button btnNext = findViewById(R.id.btnNext);
 
@@ -51,12 +50,10 @@ public class SignupPage2 extends AppCompatActivity {
 
             boolean valid = true;
 
-
             layoutFirstName.setError(null);
             layoutLastName.setError(null);
             layoutPhone.setError(null);
 
-            // 🔹 Validate first name
             // 🔹 Validate first name
             if (fname.isEmpty()) {
                 layoutFirstName.setError("First name is required");
@@ -67,7 +64,6 @@ public class SignupPage2 extends AppCompatActivity {
                 layoutFirstName.setErrorIconDrawable(R.drawable.error);
                 valid = false;
             }
-
 
             // 🔹 Validate last name
             if (lname.isEmpty()) {
@@ -92,9 +88,10 @@ public class SignupPage2 extends AppCompatActivity {
             }
 
             if (valid) {
-                data.firstName = fname;
-                data.middleName = mname;
-                data.lastName = lname;
+                // ⬇️ Use the helper here before saving
+                data.firstName = capitalize(fname);
+                data.middleName = capitalize(mname);
+                data.lastName = capitalize(lname);
                 data.phone = phone;
 
                 Intent i = new Intent(this, SignUpPage3.class);
@@ -103,7 +100,6 @@ public class SignupPage2 extends AppCompatActivity {
             }
         });
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -111,9 +107,17 @@ public class SignupPage2 extends AppCompatActivity {
         });
     }
 
+    // ✅ Helper function for capitalization (moved outside onCreate)
+    private String capitalize(String input) {
+        if (input == null || input.isEmpty()) return input;
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
     private String safe(TextInputEditText t) {
         return t.getText() == null ? "" : t.getText().toString().trim();
     }
 
-    private void toast(String m) { Toast.makeText(this, m, Toast.LENGTH_SHORT).show(); }
+    private void toast(String m) {
+        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
+    }
 }

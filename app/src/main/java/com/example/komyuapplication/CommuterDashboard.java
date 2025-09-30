@@ -81,5 +81,12 @@ public class CommuterDashboard extends AppCompatActivity {
                     .replace(R.id.fragment_container, new CommuterHomeFragment())
                     .commit();
         }
+
+
+    }
+    public void setBottomNavSelected(int itemId) {
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(itemId);
+        }
     }
 }

@@ -50,15 +50,7 @@ public class LoginFirstPage extends AppCompatActivity {
                 return;
             }
 
-            // 🔹 Keep Driver Dummy
-            if (username.equals("driver444") && password.equals("123456")) {
-                Toast.makeText(this, "Driver Login (dummy)", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginFirstPage.this, DriverDashboard.class));
-                finish();
-                return;
-            }
-
-            // 🔹 All commuters must go through API
+            // All users must go through API
             APIService api = APIClient.getInstance().create(APIService.class);
             Call<APIResponse> call = api.login(username, password);
             call.enqueue(new Callback<APIResponse>() {
@@ -71,6 +63,13 @@ public class LoginFirstPage extends AppCompatActivity {
 
                     APIResponse res = response.body();
                     if (res.success == 1) {
+                        // Create user session after successful login
+                        UserSessionManager sessionManager = new UserSessionManager(LoginFirstPage.this);
+                        sessionManager.createLoginSession(username);
+
+                        // Fetch complete user profile and save it
+                        fetchAndSaveUserProfile(username, sessionManager);
+
                         Toast.makeText(LoginFirstPage.this, "Login successful!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
                         finish();
@@ -93,6 +92,30 @@ public class LoginFirstPage extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+    }
+
+    private void fetchAndSaveUserProfile(String username, UserSessionManager sessionManager) {
+        APIService api = APIClient.getInstance().create(APIService.class);
+        Call<APIResponse> call = api.getUserProfile(username);
+        call.enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Convert the response to JSON and save it
+                    com.google.gson.Gson gson = new com.google.gson.Gson();
+                    String userJson = gson.toJson(response.body());
+                    sessionManager.saveUserData(userJson);
+                }
+                // Note: Even if profile fetch fails, login is still successful
+                // The home fragment will try to fetch the profile again
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                // Profile fetch failed, but login is still successful
+                // The home fragment will handle retrying the profile fetch
+            }
         });
     }
 }

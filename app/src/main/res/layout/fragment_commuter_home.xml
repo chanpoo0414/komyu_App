@@ -115,366 +115,371 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Scrollable Body -->
-    <androidx.core.widget.NestedScrollView
+    <!-- SwipeRefreshLayout wrapping the scrollable content -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:padding="16dp"
-        android:backgroundTint="@color/bgGrey"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- ... rest of your content remains exactly the same ... -->
-        <LinearLayout
+        <!-- Scrollable Body -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:dividerPadding="8dp">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp"
+            android:backgroundTint="@color/bgGrey">
 
-            <!-- Wallet Balance Card -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="16dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
-                android:backgroundTint="@color/white">
+                android:orientation="vertical"
+                android:dividerPadding="8dp">
 
-                <LinearLayout
+                <!-- Wallet Balance Card -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_wallet_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Current points"
-                        android:layout_marginTop="16dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:layout_gravity="center" />
-
-                    <TextView
-                        android:id="@+id/tv_wallet_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="45.50"
-                        android:textColor="@android:color/black"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_buy_load"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="18dp"
-                        android:backgroundTint="@color/lightGreenKomyu"
-                        android:text="Buy Points"
-                        app:cornerRadius="8dp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <!-- Quick Actions + Travel Overview (Second Card) -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:padding="16dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
-                android:backgroundTint="@color/white"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <!-- Quick Actions Title -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quick Actions"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="12dp" />
-
-                    <!-- Quick Actions Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="16dp">
-
-                        <!-- Scan & Pay -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btn_scan_pay"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:strokeWidth="1dp"
-                            app:strokeColor="@color/lightblack"
-                            android:backgroundTint="@color/white"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:padding="12dp">
-
-                                <ImageView
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:padding="6dp"
-                                    android:src="@drawable/qr_outline_icon"
-                                    android:background="@drawable/qr_scanner_bg"
-                                    android:scaleType="centerCrop"
-                                    android:contentDescription="@string/app_name" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="Scan &amp; Pay"
-                                    android:textStyle="bold"
-                                    android:textSize="14sp"
-                                    android:textColor="@android:color/black" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <!-- Terminals -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/btn_terminals"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/lightblack"
-                            android:backgroundTint="@color/white"
-                            app:strokeWidth="1dp"
-                            android:background="@color/white"
-                            android:clickable="true"
-                            android:focusable="true">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:padding="12dp">
-
-                                <ImageView
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:src="@drawable/location_outline_icon"
-                                    android:background="@drawable/location_bg"
-                                    android:scaleType="centerCrop"
-                                    android:padding="6dp"
-                                    android:contentDescription="@string/app_name" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="View Terminals"
-                                    android:textStyle="bold"
-                                    android:textSize="14sp"
-                                    android:textColor="@android:color/black" />
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
-
-                    <!-- Travel Overview Title -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Travel Overview"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginBottom="12dp" />
-
-                    <!-- Travel Overview Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginBottom="24dp">
-
-                        <!-- Total Points Spent -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/lightblack"
-                            android:backgroundTint="@color/white"
-                            app:strokeWidth="1dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:padding="12dp">
-
-                                <ImageView
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:padding="6dp"
-                                    android:background="@drawable/card_and_location_bg_grey"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/card_outline"
-                                    android:contentDescription="@string/app_name" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/tv_total_points_value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="98.00"
-                                        android:textStyle="bold"
-                                        android:textSize="14sp"
-                                        android:textColor="@android:color/black" />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="Total Points Spent"
-                                        android:textSize="10sp"
-                                        android:textColor="@android:color/black" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <!-- Trips This Week -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            app:cardCornerRadius="12dp"
-                            app:strokeColor="@color/lightblack"
-                            android:backgroundTint="@color/white"
-                            app:strokeWidth="1dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:padding="12dp">
-
-                                <ImageView
-                                    android:layout_width="34dp"
-                                    android:layout_height="34dp"
-                                    android:padding="6dp"
-                                    android:background="@drawable/card_and_location_bg_grey"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/clock_outline_icon"
-                                    android:contentDescription="@string/app_name" />
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/tv_trip_count_value"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="8"
-                                        android:textStyle="bold"
-                                        android:textSize="14sp"
-                                        android:textColor="@android:color/black" />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="8dp"
-                                        android:text="Trips this week"
-                                        android:textSize="10sp"
-                                        android:textColor="@android:color/black" />
-                                </LinearLayout>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <!-- Recent Activity Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
-                android:backgroundTint="@color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp">
+                    android:layout_marginBottom="12dp"
+                    android:padding="16dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    android:backgroundTint="@color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginHorizontal="12dp">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="265dp"
-                            android:layout_height="wrap_content"
-                            android:text="Recent Activity"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_see_all"
+                            android:id="@+id/tv_wallet_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="See all"
-                            android:textColor="@color/greenKomyu"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:text="Current points"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:layout_gravity="center" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_recent_activity"
+                        <TextView
+                            android:id="@+id/tv_wallet_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="45.50"
+                            android:textColor="@android:color/black"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_buy_load"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="18dp"
+                            android:backgroundTint="@color/lightGreenKomyu"
+                            android:text="Buy Points"
+                            app:cornerRadius="8dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <!-- Quick Actions + Travel Overview (Second Card) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:padding="16dp"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    android:backgroundTint="@color/white"
+                    >
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/item_recent_activity" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                        android:orientation="vertical"
+                        >
+
+                        <!-- Quick Actions Title -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quick Actions"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Quick Actions Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="16dp">
+
+                            <!-- Scan & Pay -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_scan_pay"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                app:cardCornerRadius="12dp"
+                                app:strokeWidth="1dp"
+                                app:strokeColor="@color/lightblack"
+                                android:backgroundTint="@color/white"
+                                android:clickable="true"
+                                android:focusable="true">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:padding="12dp">
+
+                                    <ImageView
+                                        android:layout_width="34dp"
+                                        android:layout_height="34dp"
+                                        android:padding="6dp"
+                                        android:src="@drawable/qr_outline_icon"
+                                        android:background="@drawable/qr_scanner_bg"
+                                        android:scaleType="centerCrop"
+                                        android:contentDescription="@string/app_name" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="Scan &amp; Pay"
+                                        android:textStyle="bold"
+                                        android:textSize="14sp"
+                                        android:textColor="@android:color/black" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Terminals -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/btn_terminals"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                app:cardCornerRadius="12dp"
+                                app:strokeColor="@color/lightblack"
+                                android:backgroundTint="@color/white"
+                                app:strokeWidth="1dp"
+                                android:background="@color/white"
+                                android:clickable="true"
+                                android:focusable="true">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:padding="12dp">
+
+                                    <ImageView
+                                        android:layout_width="34dp"
+                                        android:layout_height="34dp"
+                                        android:src="@drawable/location_outline_icon"
+                                        android:background="@drawable/location_bg"
+                                        android:scaleType="centerCrop"
+                                        android:padding="6dp"
+                                        android:contentDescription="@string/app_name" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:text="View Terminals"
+                                        android:textStyle="bold"
+                                        android:textSize="14sp"
+                                        android:textColor="@android:color/black" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                        <!-- Travel Overview Title -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Travel Overview"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Travel Overview Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="24dp">
+
+                            <!-- Total Points Spent -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                app:cardCornerRadius="12dp"
+                                app:strokeColor="@color/lightblack"
+                                android:backgroundTint="@color/white"
+                                app:strokeWidth="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:padding="12dp">
+
+                                    <ImageView
+                                        android:layout_width="34dp"
+                                        android:layout_height="34dp"
+                                        android:padding="6dp"
+                                        android:background="@drawable/card_and_location_bg_grey"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/card_outline"
+                                        android:contentDescription="@string/app_name" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/tv_total_points_value"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:text="98.00"
+                                            android:textStyle="bold"
+                                            android:textSize="14sp"
+                                            android:textColor="@android:color/black" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:text="Total Points Spent"
+                                            android:textSize="10sp"
+                                            android:textColor="@android:color/black" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <!-- Trips This Week -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                app:cardCornerRadius="12dp"
+                                app:strokeColor="@color/lightblack"
+                                android:backgroundTint="@color/white"
+                                app:strokeWidth="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:padding="12dp">
+
+                                    <ImageView
+                                        android:layout_width="34dp"
+                                        android:layout_height="34dp"
+                                        android:padding="6dp"
+                                        android:background="@drawable/card_and_location_bg_grey"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/clock_outline_icon"
+                                        android:contentDescription="@string/app_name" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/tv_trip_count_value"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:text="8"
+                                            android:textStyle="bold"
+                                            android:textSize="14sp"
+                                            android:textColor="@android:color/black" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="8dp"
+                                            android:text="Trips this week"
+                                            android:textSize="10sp"
+                                            android:textColor="@android:color/black" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <!-- Recent Activity Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    android:backgroundTint="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginHorizontal="12dp">
+
+                            <TextView
+                                android:layout_width="265dp"
+                                android:layout_height="wrap_content"
+                                android:text="Recent Activity"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_see_all"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="See all"
+                                android:textColor="@color/greenKomyu"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_recent_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/item_recent_activity" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
