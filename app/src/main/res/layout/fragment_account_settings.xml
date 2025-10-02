@@ -21,7 +21,9 @@
             android:layout_marginStart="16dp"
             android:src="@drawable/back_button_icon2"
             app:tint="@android:color/white"
-            android:contentDescription="Back Button" />
+            android:contentDescription="Back Button"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <!-- Title -->
         <TextView

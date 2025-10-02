@@ -21,7 +21,9 @@
             android:layout_marginStart="16dp"
             android:src="@drawable/back_button_icon2"
             app:tint="@android:color/white"
-            android:contentDescription="Back Button" />
+            android:contentDescription="Back Button"
+            android:clickable="true"
+            android:focusable="true" />
 
         <!-- Title -->
         <TextView
@@ -34,4 +36,30 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
+    <!-- ScrollView for the terms and conditions content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="66dp"
+        android:padding="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_terms_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Acceptance of Terms\n\nBy downloading, accessing, or using the KOMYU application, you accept and agree to comply with these Terms, our Privacy Policy, and any applicable regulations.\n\n2. Description of Service\n\nKOMYU provides a digital commuting and fare management system that includes:\n\n• QR code-based fare payments and balance tracking.\n• Reporting and ratings features for commuters and transport operators.\n• Communication tools such as alerts and notifications related to transport services.\n\n3. User Accounts and Responsibilities\n\n• You are responsible for maintaining the confidentiality of your account credentials.\n• You agree to provide accurate and complete registration information.\n• You are responsible for all activities under your account.\n• You must notify us immediately of any unauthorized access or suspicious activity.\n\n4. Acceptable Use Policy\n\nYou agree to use KOMYU only for lawful purposes. You must not:\n\n• Misuse the application for fraudulent or harmful activities.\n• Upload or transmit offensive, abusive, or inappropriate content.\n• Attempt to disrupt system operations or gain unauthorized access.\n• Violate any applicable laws, rules, or transport regulations.\n\n5. Privacy and Data Protection\n\nYour privacy is important to us. Please review our Privacy Policy to understand how we collect, use, and protect your information.\n\n6. Service Availability\n\nWe strive to provide reliable and continuous service but cannot guarantee uninterrupted access. KOMYU reserves the right to modify, suspend, or discontinue any feature of the service with or without notice.\n\n7. Intellectual Property\n\nAll content, trademarks, logos, and materials in KOMYU are the property of the KOMYU Development Team. Users may not copy, reproduce, distribute, or create derivative works without explicit written permission.\n\n8. Limitation of Liability\n\nTo the maximum extent permitted by law, the KOMYU Development Team shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use or inability to use the service.\n\n9. Termination\n\nWe reserve the right to suspend or terminate your access to KOMYU at any time if you violate these Terms, misuse the system, or engage in activities that compromise security or service integrity.\n\n10. Contact Us\n\nFor questions, concerns, or support related to these Terms or the Privacy Policy, you may contact us at:\nkomyu.support@gmail.com"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:lineSpacingExtra="4dp"
+                android:textIsSelectable="true" />
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
