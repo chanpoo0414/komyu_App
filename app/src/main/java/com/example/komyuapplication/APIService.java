@@ -3,7 +3,9 @@ package com.example.komyuapplication;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface APIService {
 
@@ -80,6 +82,46 @@ public interface APIService {
             @Field("driver_id") String driverId,
             @Field("conductor_id") String conductorId,
             @Field("fare") double fare
+    );
+
+    @FormUrlEncoded
+    @POST("submit_rating.php")
+    Call<APIResponse> submitRating(
+            @Field("commuter_id") String commuterId,
+            @Field("commuter_name") String commuterName,
+            @Field("transaction_id") String transactionId,
+            @Field("driver_name") String driverName,
+            @Field("conductor_name") String conductorName,
+            @Field("bus_number") String busNumber,
+            @Field("route") String route,
+            @Field("overall_rating") int overallRating,
+            @Field("driver_rating") int driverRating,
+            @Field("conductor_rating") int conductorRating,
+            @Field("report_type") String reportType,
+            @Field("comments") String comments
+    );
+
+    // GET method for Hostinger compatibility
+    @GET("submit_rating_get.php")
+    Call<APIResponse> submitRatingGet(
+            @Query("cid") String commuterId,
+            @Query("cname") String commuterName,
+            @Query("tid") String transactionId,
+            @Query("dname") String driverName,
+            @Query("cname2") String conductorName,
+            @Query("bus") String busNumber,
+            @Query("rt") String route,
+            @Query("orating") int overallRating,
+            @Query("drating") int driverRating,
+            @Query("crating") int conductorRating,
+            @Query("rtype") String reportType,
+            @Query("cmt") String comments
+    );
+
+    @FormUrlEncoded
+    @POST("getReportDetails.php")
+    Call<APIResponse> getReportDetails(
+            @Field("report_id") String reportId
     );
 
 }

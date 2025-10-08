@@ -146,11 +146,16 @@ public class CommuterHomeFragment extends Fragment {
     }
 
     private void navigateToCommuterLogs() {
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new CommuterLogsFragment()) // 👈 opens the logs
-                .addToBackStack(null)
-                .commit();
+        if (getActivity() instanceof CommuterDashboard) {
+            ((CommuterDashboard) getActivity()).setBottomNavSelected(R.id.nav_logs);
+        } else {
+            // Fallback: manually navigate to logs fragment
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new CommuterLogsFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     private void loadUserData() {
@@ -275,6 +280,27 @@ public class CommuterHomeFragment extends Fragment {
             item.title = activity.title;
             item.subtitle = activity.subtitle;
             item.amount = activity.amount;
+
+            // Set icon based on the type from server
+            if (activity.icon != null) {
+                switch (activity.icon) {
+                    case "bus":
+                        item.iconRes = R.drawable.bus_icon;
+                        break;
+                    case "points":
+                    default:
+                        item.iconRes = R.drawable.plus_points_icon;
+                        break;
+                }
+            } else {
+                // Fallback: determine icon based on amount
+                if (activity.amount.startsWith("-")) {
+                    item.iconRes = R.drawable.bus_icon;
+                } else {
+                    item.iconRes = R.drawable.plus_points_icon;
+                }
+            }
+
             data.add(item);
         }
 
@@ -282,31 +308,14 @@ public class CommuterHomeFragment extends Fragment {
             data = data.subList(0, 3);
         }
 
-        if (data.isEmpty()) {
-            loadSampleRecentActivity();
-        } else {
-            recentActivityAdapter.setData(data);
-        }
+        // This will handle both empty and populated states
+        recentActivityAdapter.setData(data);
     }
 
     private void loadSampleRecentActivity() {
-        List<RecentActivityAdapter.Item> data = new ArrayList<>();
-
-        RecentActivityAdapter.Item it1 = new RecentActivityAdapter.Item();
-        it1.title = "Trip to SM City";
-        it1.subtitle = "15 Sep 2025 · 11:11 AM";
-        it1.amount = "-35.00";
-        it1.iconRes = R.drawable.bus_icon;   // 👈 trip icon here
-        data.add(it1);
-
-        RecentActivityAdapter.Item it2 = new RecentActivityAdapter.Item();
-        it2.title = "Top-up";
-        it2.subtitle = "14 Sep 2025 · 09:00 AM";
-        it2.amount = "+100.00";
-        it2.iconRes = R.drawable.plus_points_icon; // 👈 top-up/points icon
-        data.add(it2);
-
-        recentActivityAdapter.setData(data);
+        // Create empty list to show "No activities" message
+        List<RecentActivityAdapter.Item> emptyData = new ArrayList<>();
+        recentActivityAdapter.setData(emptyData);
     }
 
     private void updateUIWithUserData() {
@@ -357,15 +366,23 @@ public class CommuterHomeFragment extends Fragment {
     }
 
     private void showTerminalsDialog() {
-        new MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Choose Counter to Pay")
-                .setItems(new String[]{"Counter 1 - Terminal 1 • SM Seaside", "Counter 2 - Terminal 2 • SM City"},
-                        (dialog, which) -> {
-                            String selectedTerminal = which == 0 ? "Counter 1 - Terminal 1 • SM Seaside" : "Counter 2 - Terminal 2 • SM City";
-                            Toast.makeText(requireContext(), "Selected: " + selectedTerminal, Toast.LENGTH_SHORT).show();
-                        })
-                .setNegativeButton("Cancel", null)
-                .show();
+        // Inflate custom layout
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View dialogView = inflater.inflate(R.layout.dialog_terminals, null);
+
+        // Initialize views
+        MaterialButton btnOk = dialogView.findViewById(R.id.btn_terminals_ok);
+
+        // Create dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(true);
+
+        // Set button listener - just close the dialog, no payment action
+        btnOk.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void checkCameraPermission() {
@@ -540,9 +557,14 @@ public class CommuterHomeFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     APIResponse apiResponse = response.body();
                     if (apiResponse.success == 1) {
-                        // Payment successful - refresh user data
+                        // Payment successful - show success dialog with trip details
+                        if (apiResponse.data != null) {
+                            showPaymentSuccessDialog(apiResponse.data);
+                        } else {
+                            Toast.makeText(requireContext(), "Payment successful!", Toast.LENGTH_SHORT).show();
+                        }
+                        // Refresh user data
                         fetchUserProfileFromServer();
-                        Toast.makeText(requireContext(), "Payment successful!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(requireContext(), "Payment failed: " + apiResponse.message, Toast.LENGTH_LONG).show();
                     }
@@ -556,6 +578,40 @@ public class CommuterHomeFragment extends Fragment {
                 Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showPaymentSuccessDialog(APIResponse.PaymentData paymentData) {
+        // Inflate custom layout
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View dialogView = inflater.inflate(R.layout.dialog_payment_success, null);
+
+        // Initialize views
+        TextView tvFare = dialogView.findViewById(R.id.tv_success_fare);
+        TextView tvBus = dialogView.findViewById(R.id.tv_success_bus);
+        TextView tvDriver = dialogView.findViewById(R.id.tv_success_driver);
+        TextView tvConductor = dialogView.findViewById(R.id.tv_success_conductor);
+        TextView tvBalance = dialogView.findViewById(R.id.tv_success_balance);
+        TextView tvTripId = dialogView.findViewById(R.id.tv_success_trip_id);
+        MaterialButton btnOk = dialogView.findViewById(R.id.btn_success_ok);
+
+        // Set data
+        tvFare.setText(String.format("₱%.2f", paymentData.fare_paid));
+        tvBus.setText(paymentData.bus_number != null ? paymentData.bus_number : "N/A");
+        tvDriver.setText(paymentData.driver_name != null ? paymentData.driver_name : "Not assigned");
+        tvConductor.setText(paymentData.conductor_name != null ? paymentData.conductor_name : "Not assigned");
+        tvBalance.setText(String.format("₱%.2f", paymentData.new_balance));
+        tvTripId.setText(String.valueOf(paymentData.trip_id));
+
+        // Create dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+
+        // Set button listener
+        btnOk.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void showTerminalPaymentConfirmation(String terminalId, String amount) {

@@ -180,6 +180,7 @@
                             android:layout_gravity="center"
                             android:layout_marginBottom="18dp"
                             android:backgroundTint="@color/lightGreenKomyu"
+                            android:textColor="@color/whiteKomyu"
                             android:text="Buy Points"
                             app:cornerRadius="8dp" />
                     </LinearLayout>

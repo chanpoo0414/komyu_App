@@ -5,13 +5,16 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center"
+    android:background="@color/whiteKomyu"
     android:backgroundTint="@color/whiteKomyu">
 
     <ProgressBar
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/whiteKomyu"/>
+        android:backgroundTint="@color/whiteKomyu"
+        android:progressBackgroundTint="@color/black"
+        android:background="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"

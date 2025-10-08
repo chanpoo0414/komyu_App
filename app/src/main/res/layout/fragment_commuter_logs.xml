@@ -111,13 +111,6 @@
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
-                            <TextView
-                                android:id="@+id/tv_transaction_trip_datetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sep 28, 2025 • 11:31 AM"
-                                android:textSize="13sp"
-                                android:textColor="@android:color/darker_gray"/>
                         </LinearLayout>
 
                         <!-- Deduction -->
@@ -179,13 +172,6 @@
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
-                            <TextView
-                                android:id="@+id/tv_transaction_points_datetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sep 28, 2025 • 10:31 PM"
-                                android:textSize="13sp"
-                                android:textColor="@android:color/darker_gray"/>
                         </LinearLayout>
 
                         <!-- Addition -->
@@ -258,13 +244,6 @@
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
-                            <TextView
-                                android:id="@+id/tv_transaction_yesterday_datetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sep 27, 2025 • 9:45 AM"
-                                android:textSize="13sp"
-                                android:textColor="@android:color/darker_gray"/>
                         </LinearLayout>
 
                         <TextView
@@ -336,13 +315,6 @@
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
-                            <TextView
-                                android:id="@+id/tv_transaction_past_datetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sep 26, 2025 • 6:20 PM"
-                                android:textSize="13sp"
-                                android:textColor="@android:color/darker_gray"/>
                         </LinearLayout>
 
                         <TextView

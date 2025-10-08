@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import retrofit2.Call;
@@ -34,7 +36,7 @@ public class CommuterLogsFragment extends Fragment {
 
     private List<APIResponse.RecentActivity> recentActivities = new ArrayList<>();
     private AuthRepository authRepository;
-    private UserSessionManager sessionManager; // Add this
+    private UserSessionManager sessionManager;
 
     public CommuterLogsFragment() {
         // Required empty public constructor
@@ -52,16 +54,13 @@ public class CommuterLogsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize session manager
         sessionManager = new UserSessionManager(requireContext());
 
-        // Get username from arguments first
         if (getArguments() != null) {
             username = getArguments().getString(ARG_USERNAME);
             Log.d("CommuterLogs", "Username from arguments: " + username);
         }
 
-        // If still null, get from session manager
         if (username == null || username.isEmpty()) {
             username = sessionManager.getUsername();
             Log.d("CommuterLogs", "Username from session: " + username);
@@ -82,7 +81,6 @@ public class CommuterLogsFragment extends Fragment {
         initializeViews(view);
         setupSwipeRefresh();
 
-        // Final check for username
         if (username == null || username.isEmpty()) {
             username = sessionManager.getUsername();
             Log.d("CommuterLogs", "Final username check: " + username);
@@ -131,7 +129,6 @@ public class CommuterLogsFragment extends Fragment {
 
         Log.d("CommuterLogs", "Loading recent activity for: " + username);
 
-        // Use the getRecentActivity API call directly instead of fetchUserProfile
         APIService apiService = APIClient.getInstance().create(APIService.class);
         Call<APIResponse> call = apiService.getRecentActivity(username);
 
@@ -168,7 +165,6 @@ public class CommuterLogsFragment extends Fragment {
     }
 
     private void updateUI() {
-        // Clear container except the header and date
         clearContainer();
 
         if (recentActivities.isEmpty()) {
@@ -176,22 +172,13 @@ public class CommuterLogsFragment extends Fragment {
             return;
         }
 
-        // Sort activities by date (newest first)
         sortActivitiesByDate();
-
-        // Group activities by date
         Map<String, List<APIResponse.RecentActivity>> groupedActivities = groupActivitiesByDate();
-
-        // Define the order we want sections to appear
         List<String> sectionOrder = getSortedSectionKeys(groupedActivities);
 
-        // Create sections in the correct order
         for (String section : sectionOrder) {
             if (groupedActivities.containsKey(section)) {
-                // Add date header
                 addDateHeader(section);
-
-                // Add activity cards for this section (already sorted newest first)
                 List<APIResponse.RecentActivity> activities = groupedActivities.get(section);
                 for (APIResponse.RecentActivity activity : activities) {
                     addActivityCard(activity);
@@ -203,14 +190,12 @@ public class CommuterLogsFragment extends Fragment {
     private List<String> getSortedSectionKeys(Map<String, List<APIResponse.RecentActivity>> groupedActivities) {
         List<String> keys = new ArrayList<>(groupedActivities.keySet());
 
-        // Custom comparator to sort: Today -> Yesterday -> then actual dates (newest first)
         keys.sort((key1, key2) -> {
             if (key1.equals("Today")) return -1;
             if (key2.equals("Today")) return 1;
             if (key1.equals("Yesterday")) return -1;
             if (key2.equals("Yesterday")) return 1;
 
-            // For actual dates, sort in descending order (newest first)
             try {
                 SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
                 Date date1 = format.parse(key1);
@@ -224,22 +209,19 @@ public class CommuterLogsFragment extends Fragment {
         return keys;
     }
 
-    // Add this new method to sort activities by date (newest first)
     private void sortActivitiesByDate() {
         recentActivities.sort((activity1, activity2) -> {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 Date date1 = format.parse(activity1.date);
                 Date date2 = format.parse(activity2.date);
-                return date2.compareTo(date1); // Descending order (newest first)
+                return date2.compareTo(date1);
             } catch (Exception e) {
                 return 0;
             }
         });
     }
 
-    // Update the groupActivitiesByDate method to maintain order within groups
-    // Update the groupActivitiesByDate method to show individual dates for older history
     private Map<String, List<APIResponse.RecentActivity>> groupActivitiesByDate() {
         Map<String, List<APIResponse.RecentActivity>> grouped = new HashMap<>();
         SimpleDateFormat displayFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
@@ -256,14 +238,13 @@ public class CommuterLogsFragment extends Fragment {
                 Date activityDate = apiFormat.parse(activity.date);
                 String displayDate = displayFormat.format(activityDate);
 
-                // Convert to relative dates
                 String dateKey;
                 if (displayDate.equals(todayStr)) {
                     dateKey = "Today";
                 } else if (displayDate.equals(yesterdayStr)) {
                     dateKey = "Yesterday";
                 } else {
-                    dateKey = displayDate; // Use actual date for older history
+                    dateKey = displayDate;
                 }
 
                 if (!grouped.containsKey(dateKey)) {
@@ -273,7 +254,6 @@ public class CommuterLogsFragment extends Fragment {
 
             } catch (Exception e) {
                 Log.e("CommuterLogs", "Date parsing error: " + e.getMessage());
-                // Use original date as fallback
                 if (!grouped.containsKey(activity.date)) {
                     grouped.put(activity.date, new ArrayList<>());
                 }
@@ -300,29 +280,102 @@ public class CommuterLogsFragment extends Fragment {
     }
 
     private void addActivityCard(APIResponse.RecentActivity activity) {
-        // Make sure you have item_transaction_card.xml layout
         CardView cardView = (CardView) LayoutInflater.from(getContext())
                 .inflate(R.layout.item_transaction_card, containerLogs, false);
 
-        // Configure card based on activity type
         configureCardView(cardView, activity);
+
+        // Make card clickable
+        cardView.setClickable(true);
+        cardView.setFocusable(true);
+        cardView.setOnClickListener(v -> {
+            handleCardClick(activity);
+        });
 
         containerLogs.addView(cardView);
 
-        // Add bottom margin
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
         params.bottomMargin = dpToPx(12);
         cardView.setLayoutParams(params);
     }
 
+    private void handleCardClick(APIResponse.RecentActivity activity) {
+        Log.d("CommuterLogs", "=== CLICK DEBUG - Topup Details ===");
+        Log.d("CommuterLogs", "Type: " + activity.type);
+        Log.d("CommuterLogs", "Title: " + activity.title);
+        Log.d("CommuterLogs", "Amount: " + activity.amount);
+        Log.d("CommuterLogs", "Date: " + activity.date);
+        Log.d("CommuterLogs", "Counter Location: " + activity.counter_location);
+        Log.d("CommuterLogs", "Subtitle: " + activity.subtitle);
+        Log.d("CommuterLogs", "Transaction Code: " + activity.transaction_code);
+        Log.d("CommuterLogs", "=== END CLICK DEBUG ===");
+
+        if (activity.type != null && activity.type.equals("topup")) {
+            navigateToTopupDetails(activity);
+        } else if (activity.type != null && activity.type.equals("bus_trip")) {
+            navigateToTripDetails(activity);
+        } else {
+            if (activity.amount.startsWith("+")) {
+                navigateToTopupDetails(activity);
+            } else {
+                navigateToTripDetails(activity);
+            }
+        }
+    }
+
+    private void navigateToTopupDetails(APIResponse.RecentActivity activity) {
+        TransactionTopupDetsFragment fragment = TransactionTopupDetsFragment.newInstance(activity);
+
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack("topup_details");
+        transaction.commit();
+    }
+
+    private void navigateToTripDetails(APIResponse.RecentActivity activity) {
+        TransactionTripsDetsFragment fragment = TransactionTripsDetsFragment.newInstance(activity);
+
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack("trip_details");
+        transaction.commit();
+    }
+
     private void configureCardView(CardView cardView, APIResponse.RecentActivity activity) {
-        TextView title = cardView.findViewById(R.id.tv_transaction_title);
-        TextView amount = cardView.findViewById(R.id.tv_transaction_amount);
+        TextView title = cardView.findViewById(R.id.tv_title);
+        TextView amount = cardView.findViewById(R.id.tv_amount);
+        ImageView icon = cardView.findViewById(R.id.img_icon);
 
         title.setText(activity.title);
         amount.setText(activity.amount);
 
-        // Set amount color based on type
+        // Set icon based on activity type or icon field
+        if (activity.type != null) {
+            if (activity.type.equals("topup")) {
+                icon.setImageResource(R.drawable.plus_points_icon);
+            } else if (activity.type.equals("bus_trip")) {
+                icon.setImageResource(R.drawable.bus_icon);
+            } else {
+                icon.setImageResource(R.drawable.simple_activity_icon);
+            }
+        } else if (activity.icon != null) {
+            if (activity.icon.equals("points")) {
+                icon.setImageResource(R.drawable.plus_points_icon);
+            } else if (activity.icon.equals("bus")) {
+                icon.setImageResource(R.drawable.bus_icon);
+            } else {
+                icon.setImageResource(R.drawable.simple_activity_icon);
+            }
+        } else {
+            // Fallback: detect by amount prefix
+            if (activity.amount.startsWith("+")) {
+                icon.setImageResource(R.drawable.plus_points_icon);
+            } else {
+                icon.setImageResource(R.drawable.bus_icon);
+            }
+        }
+
+        // Set amount color
         if (activity.amount.startsWith("+")) {
             amount.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
         } else {
@@ -331,7 +384,6 @@ public class CommuterLogsFragment extends Fragment {
     }
 
     private void clearContainer() {
-        // Remove all views except the first 2 (header and date)
         int childCount = containerLogs.getChildCount();
         for (int i = childCount - 1; i >= 2; i--) {
             containerLogs.removeViewAt(i);
@@ -341,23 +393,13 @@ public class CommuterLogsFragment extends Fragment {
     private void showEmptyState(String message) {
         clearContainer();
 
-        TextView emptyText = new TextView(getContext());
-        emptyText.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
+        View emptyView = LayoutInflater.from(getContext())
+                .inflate(R.layout.item_empty_logs, containerLogs, false);
+
+        TextView emptyText = emptyView.findViewById(R.id.tv_empty_message);
         emptyText.setText(message);
-        emptyText.setTextSize(16);
-        emptyText.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        emptyText.setPadding(0, dpToPx(50), 0, 0);
-        emptyText.setGravity(android.view.Gravity.CENTER);
 
-        // Make it full width
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) emptyText.getLayoutParams();
-        params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-        emptyText.setLayoutParams(params);
-
-        containerLogs.addView(emptyText);
+        containerLogs.addView(emptyView);
     }
 
     private int dpToPx(int dp) {

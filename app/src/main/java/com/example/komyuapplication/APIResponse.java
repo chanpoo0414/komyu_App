@@ -1,6 +1,7 @@
 package com.example.komyuapplication;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +10,11 @@ public class APIResponse {
     public String message;
     public String commuter_id;
 
-//    added 9-23-25 down
     public User user;
-    public List<RecentActivity> recent_activity;
+    public PaymentData data;
+    public RatingResponse rating_data;
 
+    public List<RecentActivity> recent_activity;
 
     public static class User {
         public int id;
@@ -60,14 +62,12 @@ public class APIResponse {
         @SerializedName("profile_picture")
         public String profilePicture;
 
-
-
-//        comment out these cuz they no longer exist in the CommutersDB(table)
         @SerializedName("total_points_spent")
         public double totalPointsSpent;
 
-        @SerializedName("points_balance")  // Changed from "balance"
+        @SerializedName("points_balance")
         public double pointsBalance;
+
         @SerializedName("trip_count")
         public int tripCount;
 
@@ -75,14 +75,22 @@ public class APIResponse {
         public String accountCreated;
     }
 
-    public static class RecentActivity {
+    public static class RecentActivity implements Serializable {
         public String type;
         public String title;
         public String subtitle;
         public String amount;
         public String date;
         public String transaction_code;
-        public String icon; // "bus" or "points"
+        public String icon;
+
+        // Add these new fields
+        public String user_category;
+        public String counter_location;
+        public String driver_name;
+        public String conductor_name;
+        public String route;
+        public String plate_number;
     }
 
     public static class BusQRData {
@@ -104,7 +112,6 @@ public class APIResponse {
         public Double pwd;
     }
 
-
     public static class PaymentData {
         public int trip_id;
         public double fare_paid;
@@ -115,4 +122,38 @@ public class APIResponse {
         public String conductor_name;
     }
 
+    public static class RatingResponse {
+        public int report_id;
+        public String status;
+        public String submitted_at;
+    }
+
+    public static class RatingData {
+        public int report_id;
+        public int overall_rating;
+        public int driver_rating;
+        public int conductor_rating;
+        public String report_type;
+    }
+
+    public static class ReportDetails {
+        public int report_id;
+        public String commuter_name;
+        public String commuter_id;
+        public String employee_name;
+        public String employee_id;
+        public String type;
+        public String status;
+        public String reported_at;
+        public int overall_rating;
+        public int driver_rating;
+        public int conductor_rating;
+        public String remarks;
+        public String action_taken;
+        public String trip_id;
+        public String bus_number;
+        public String route;
+        public String driver_name;
+        public String conductor_name;
+    }
 }

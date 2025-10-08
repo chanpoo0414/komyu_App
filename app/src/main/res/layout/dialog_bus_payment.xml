@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:background="@color/whiteKomyu"
+    android:backgroundTint="@color/whiteKomyu">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,6 +14,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
+        android:textColor="@color/black"
         android:layout_marginBottom="16dp" />
 
     <LinearLayout
@@ -25,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Bus:"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -33,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="BUS001"
+            android:textColor="@color/black"
             android:gravity="end" />
     </LinearLayout>
 
@@ -47,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Driver:"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -55,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Driver Name"
+            android:textColor="@color/black"
             android:gravity="end" />
     </LinearLayout>
 
@@ -69,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Conductor:"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -77,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Conductor Name"
+            android:textColor="@color/black"
             android:gravity="end" />
     </LinearLayout>
 
@@ -97,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Fare:"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -105,6 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="₱35.00"
+            android:textColor="@color/black"
             android:gravity="end"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -120,6 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:text="Your Category:" />
 
         <TextView
@@ -128,6 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Regular"
+            android:textColor="@color/black"
             android:gravity="end" />
     </LinearLayout>
 
@@ -141,6 +154,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:text="Current Balance:" />
 
         <TextView
@@ -148,6 +162,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:text="₱100.00"
             android:gravity="end" />
     </LinearLayout>
@@ -163,6 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="New Balance:"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -172,6 +188,8 @@
             android:layout_weight="1"
             android:text="₱65.00"
             android:gravity="end"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -188,6 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
+            android:textColor="@color/black"
             android:text="Cancel"
             style="@style/Widget.Material3.Button.OutlinedButton" />
 
@@ -196,7 +215,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/lightGreenKomyu"
             android:layout_marginStart="8dp"
+            android:textColor="@color/whiteKomyu"
             android:text="Pay Now"
             style="@style/Widget.Material3.Button" />
     </LinearLayout>

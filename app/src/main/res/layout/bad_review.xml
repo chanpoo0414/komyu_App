@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Trip Details -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trip Details"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvBus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bus: #1234 (Route A - B)"/>
+
+        <TextView
+            android:id="@+id/tvDriver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Driver: Juan Dela Cruz"/>
+
+        <TextView
+            android:id="@+id/tvConductor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Conductor: Pedro Santos"/>
+
+        <TextView
+            android:id="@+id/tvTripDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sept 30, 2025 • 08:30 AM"
+            android:paddingBottom="16dp"/>
+
+        <!-- Report Target -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Who are you reporting?"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbDriver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver"/>
+            <RadioButton
+                android:id="@+id/rbConductor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conductor"/>
+            <RadioButton
+                android:id="@+id/rbBoth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver &amp; Conductor"/>
+        </RadioGroup>
+
+        <!-- Negative Feedback Options -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What problems did you encounter?"
+            android:textStyle="bold"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp"/>
+
+        <CheckBox
+            android:id="@+id/cbRudeDriver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rude Driver/Conductor"/>
+
+        <CheckBox
+            android:id="@+id/cbReckless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reckless Driving"/>
+
+        <CheckBox
+            android:id="@+id/cbOvercharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overcharging / No Proper Fare"/>
+
+        <CheckBox
+            android:id="@+id/cbDirty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dirty / Unsafe Vehicle"/>
+
+        <CheckBox
+            android:id="@+id/cbRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Did Not Follow Route"/>
+
+        <CheckBox
+            android:id="@+id/cbOtherIssue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other Issue"/>
+
+        <!-- Comment -->
+        <EditText
+            android:id="@+id/etReportComment"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="16dp"
+            android:hint="Describe what happened (optional)"
+            android:inputType="textMultiLine"
+            android:minLines="3" />
+
+        <!-- Submit -->
+        <Button
+            android:id="@+id/btnSubmitReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Report Issue"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+</ScrollView>

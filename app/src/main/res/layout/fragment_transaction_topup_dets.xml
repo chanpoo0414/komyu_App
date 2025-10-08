@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
+            android:backgroundTint="@color/whiteKomyu"
             android:padding="20dp">
 
             <LinearLayout
@@ -112,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:text="+50.00"
                         android:textStyle="bold"
-                        android:textColor="@android:color/holo_green_dark"/>
+                        android:textColor="@color/greenKomyu"/>
                 </LinearLayout>
 
                 <!-- Counter -->
