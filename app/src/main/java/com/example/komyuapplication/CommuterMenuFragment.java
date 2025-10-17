@@ -233,7 +233,7 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("account_settings");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Account Settings", Toast.LENGTH_SHORT).show();
+
     }
 
     private void openSecurityPrivacy() {
@@ -244,7 +244,7 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("security_privacy");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Security & Privacy", Toast.LENGTH_SHORT).show();
+
     }
 
     private void openNotifications() {
@@ -255,7 +255,6 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("notifications");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Notifications", Toast.LENGTH_SHORT).show();
     }
 
     private void openHelpSupport() {
@@ -266,7 +265,6 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("help_support");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Help & Support", Toast.LENGTH_SHORT).show();
     }
 
     private void openTermsConditions() {
@@ -277,7 +275,6 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("terms_conditions");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Terms & Conditions", Toast.LENGTH_SHORT).show();
     }
 
     private void openPrivacyPolicy() {
@@ -288,7 +285,6 @@ public class CommuterMenuFragment extends Fragment {
         transaction.addToBackStack("privacy_policy");
         transaction.commit();
 
-        Toast.makeText(requireContext(), "Privacy Policy", Toast.LENGTH_SHORT).show();
     }
 
     private void showLogoutConfirmationDialog() {

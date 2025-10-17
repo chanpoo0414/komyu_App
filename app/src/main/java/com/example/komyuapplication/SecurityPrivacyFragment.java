@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import android.widget.ImageView;
 
 public class SecurityPrivacyFragment extends Fragment {
 
@@ -14,6 +15,20 @@ public class SecurityPrivacyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_security_privacy, container, false);
+        View view = inflater.inflate(R.layout.fragment_security_privacy, container, false);
+
+        // Get the back button and set click listener
+        ImageView btnBack = view.findViewById(R.id.btn_back_security_privacy);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to previous fragment
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
+        });
+
+        return view;
     }
 }

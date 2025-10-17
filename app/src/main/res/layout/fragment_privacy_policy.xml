@@ -21,7 +21,9 @@
             android:layout_marginStart="16dp"
             android:src="@drawable/back_button_icon2"
             app:tint="@android:color/white"
-            android:contentDescription="Back Button" />
+            android:contentDescription="Back Button"
+            android:clickable="true"
+            android:focusable="true" />
 
         <!-- Title -->
         <TextView
@@ -29,9 +31,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Notifications"
+            android:text="Privacy Policy"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
+    <!-- ScrollView for the privacy policy content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="66dp"
+        android:padding="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_privacy_policy_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Information We Collect\n\nWe collect information that you provide directly to us, as well as information automatically collected when using our platform:\n\n• Personal Information: name, commuter ID, contact details, and registered account credentials.\n• Transaction Information: fare payments, balance details, trip history, and QR code scan logs.\n• Reports &amp; Ratings Data: feedback, complaints, and ratings submitted through the platform.\n\n2. How We Use Your Information\n\nWe use the collected information to:\n\n• Facilitate QR-based fare payments and maintain commuter accounts.\n• Manage reports, complaints, and commuter ratings.\n• Communicate important updates, alerts, or announcements.\n• Improve our system's performance, security, and user experience.\n• Prevent fraudulent activities and ensure safe commuting transactions.\n\n3. Information Sharing\n\nWe do not sell or rent your personal information to third parties. Information may only be shared with:\n\n• Authorized Transportation Personnel: to verify trips, manage buses, and monitor operations.\n• Service Providers: who help us operate, secure, and maintain the KOMYU system.\n• Regulatory Authorities: if required by law, legal process, or to protect system integrity.\n\n4. Data Security\n\nWe implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, please note that no method of transmission over the internet is 100% secure.\n\n5. Data Retention\n\nWe retain your personal information for as long as necessary to:\n\n• Fulfill the purposes described in this Privacy Policy.\n• Comply with legal and regulatory obligations.\n• Resolve disputes and enforce our agreements.\n\nOnce data is no longer required, it will be securely deleted or anonymized.\n\n6. User Privacy Rights\n\nAs a KOMYU user, you have the right to:\n\n• Access and review the personal information we hold about you.\n• Request correction or updating of inaccurate information.\n• Request deletion of your account and associated personal data (subject to legal requirements).\n• Opt out of non-essential communications.\n\nTo exercise your rights, please contact us at: komyu.support@gmail.com."
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:lineSpacingExtra="4dp"
+                android:textIsSelectable="true" />
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
