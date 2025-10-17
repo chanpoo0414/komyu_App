@@ -48,13 +48,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="15 Sep 2025 · 11:11 AM"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:text="-35.00"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"

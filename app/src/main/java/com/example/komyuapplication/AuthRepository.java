@@ -1,13 +1,21 @@
 package com.example.komyuapplication;
 
 //new 09-23-25
+import android.net.Uri;
 import android.util.Log;
 import android.content.Context;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -15,6 +23,7 @@ import java.util.Locale;
 public class AuthRepository {
     private final APIService api;
     private UserSessionManager sessionManager;
+    private Context context; // Added context field
 
     // Existing constructor (keep for backward compatibility)
     public AuthRepository() {
@@ -23,14 +32,48 @@ public class AuthRepository {
 
     // Enhanced constructor with context for session management
     public AuthRepository(Context context) {
+        this.context = context; // Store the context
         api = APIClient.getInstance().create(APIService.class);
         if (context != null) {
             sessionManager = new UserSessionManager(context);
         }
     }
 
+    public void uploadImage(Uri imageUri, String fileName, Callback<APIResponse> callback) {
+        try {
+            // Use the stored context instead of APIClient.getInstance().getContext()
+            InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
+
+            if (inputStream == null) {
+                callback.onFailure(null, new IOException("Cannot open image stream"));
+                return;
+            }
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, length);
+            }
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+            inputStream.close();
+
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", fileName, requestFile);
+            RequestBody namePart = RequestBody.create(MediaType.parse("text/plain"), fileName);
+
+            Call<APIResponse> call = api.uploadImage(imagePart, namePart);
+            call.enqueue(callback);
+
+        } catch (IOException e) {
+            Log.e("AuthRepository", "Image upload error: " + e.getMessage());
+            callback.onFailure(null, e);
+        }
+    }
+
     // Set session manager separately if needed
     public void setSessionManager(Context context) {
+        this.context = context; // Also store context
         this.sessionManager = new UserSessionManager(context);
     }
 
@@ -188,6 +231,24 @@ public class AuthRepository {
         });
     }
 
+
+    public void checkTripRatingStatus(String transactionId, String commuterId, Callback<APIResponse> cb) {
+        Log.d("AuthRepository", "Checking rating status for transaction: " + transactionId + ", commuter: " + commuterId);
+
+        // You'll need to add this endpoint to your APIService interface
+        Call<APIResponse> call = api.checkRatingStatus(transactionId, commuterId);
+        call.enqueue(new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                cb.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                cb.onFailure(call, t);
+            }
+        });
+    }
 
 
     // NEW: Separate login method without automatic profile fetching (for backward compatibility)

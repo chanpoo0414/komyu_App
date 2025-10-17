@@ -6,12 +6,13 @@
     android:orientation="vertical"
     android:background="@color/grey">
 
-    <!-- Green Header -->
+    <!-- Enhanced Green Header with shadow -->
     <RelativeLayout
         android:id="@+id/header_rating"
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:background="@color/greenKomyu">
+        android:background="@color/greenKomyu"
+        android:elevation="4dp">
 
         <!-- Back button -->
         <ImageView
@@ -36,25 +37,29 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <!-- Scrollable Content -->
+    <!-- Scrollable Content with hidden scroll bars -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingVertical="18dp"
-        android:paddingHorizontal="12dp">
+        android:paddingHorizontal="12dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:fadeScrollbars="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Main Ride Rating Card -->
+            <!-- Main Ride Rating Card with enhanced shadow -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/whiteKomyu"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,59 +75,68 @@
                         android:text="Help us improve your experience by rating this ride"
                         android:textSize="18sp"
                         android:textColor="@android:color/black"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:textAlignment="center"/>
 
-                    <!-- Star Rating -->
+                    <!-- Enhanced Star Rating with better spacing -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
                         <ImageView
                             android:id="@+id/star1"
-                            android:layout_width="40dp"
-                            android:layout_height="38dp"
+                            android:layout_width="44dp"
+                            android:layout_height="42dp"
                             android:src="@drawable/star_outline_icon"
-                            android:layout_marginEnd="6dp"/>
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Star 1"/>
 
                         <ImageView
                             android:id="@+id/star2"
-                            android:layout_width="40dp"
-                            android:layout_height="38dp"
+                            android:layout_width="44dp"
+                            android:layout_height="42dp"
                             android:src="@drawable/star_outline_icon"
-                            android:layout_marginEnd="6dp"/>
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Star 2"/>
 
                         <ImageView
                             android:id="@+id/star3"
-                            android:layout_width="40dp"
-                            android:layout_height="38dp"
+                            android:layout_width="44dp"
+                            android:layout_height="42dp"
                             android:src="@drawable/star_outline_icon"
-                            android:layout_marginEnd="6dp"/>
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Star 3"/>
 
                         <ImageView
                             android:id="@+id/star4"
-                            android:layout_width="40dp"
-                            android:layout_height="38dp"
+                            android:layout_width="44dp"
+                            android:layout_height="42dp"
                             android:src="@drawable/star_outline_icon"
-                            android:layout_marginEnd="6dp"/>
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Star 4"/>
 
                         <ImageView
                             android:id="@+id/star5"
-                            android:layout_width="40dp"
-                            android:layout_height="38dp"
-                            android:src="@drawable/star_outline_icon"/>
+                            android:layout_width="44dp"
+                            android:layout_height="42dp"
+                            android:src="@drawable/star_outline_icon"
+                            android:contentDescription="Star 5"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Service Personnel Card -->
+            <!-- Service Personnel Card with enhanced shadow -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/whiteKomyu"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -140,27 +154,29 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <!-- Driver Row: left = label+name, right = stars -->
+                    <!-- Enhanced Driver Row -->
                     <LinearLayout
                         android:id="@+id/row_driver"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical">
 
-                        <!-- left group (label + name) that takes remaining space -->
+                        <!-- Left group -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
                             <TextView
                                 android:id="@+id/tv_driver_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Driver:"
-                                android:textSize="14sp"
+                                android:text="Driver: "
+                                android:textSize="12sp"
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
@@ -168,13 +184,12 @@
                                 android:id="@+id/tv_driver_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
                                 android:text="Mark Jay"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textColor="@color/lightblack2"/>
                         </LinearLayout>
 
-                        <!-- right group: driver stars (aligned to the right) -->
+                        <!-- Enhanced right group with better star spacing -->
                         <LinearLayout
                             android:id="@+id/ll_driver_stars"
                             android:layout_width="wrap_content"
@@ -184,61 +199,68 @@
 
                             <ImageView
                                 android:id="@+id/iv_driver_star1"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Driver Star 1"/>
 
                             <ImageView
                                 android:id="@+id/iv_driver_star2"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Driver Star 2"/>
 
                             <ImageView
                                 android:id="@+id/iv_driver_star3"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Driver Star 3"/>
 
                             <ImageView
                                 android:id="@+id/iv_driver_star4"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Driver Star 4"/>
 
                             <ImageView
                                 android:id="@+id/iv_driver_star5"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Driver Star 5"/>
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Conductor Row -->
+                    <!-- Enhanced Conductor Row -->
                     <LinearLayout
                         android:id="@+id/row_conductor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                        <!-- left group (label + name) -->
+                        <!-- Left group -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
                             <TextView
                                 android:id="@+id/tv_conductor_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Conductor:"
-                                android:textSize="14sp"
+                                android:text="Conductor: "
+                                android:textSize="12sp"
                                 android:textStyle="bold"
                                 android:textColor="@android:color/black"/>
 
@@ -246,13 +268,12 @@
                                 android:id="@+id/tv_conductor_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
-                                android:text="John Doe"
-                                android:textSize="14sp"
+                                android:text=" John Doe"
+                                android:textSize="12sp"
                                 android:textColor="@color/lightblack2"/>
                         </LinearLayout>
 
-                        <!-- right group: conductor stars -->
+                        <!-- Enhanced right group -->
                         <LinearLayout
                             android:id="@+id/ll_conductor_stars"
                             android:layout_width="wrap_content"
@@ -262,50 +283,56 @@
 
                             <ImageView
                                 android:id="@+id/iv_conductor_star1"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Conductor Star 1"/>
 
                             <ImageView
                                 android:id="@+id/iv_conductor_star2"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Conductor Star 2"/>
 
                             <ImageView
                                 android:id="@+id/iv_conductor_star3"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Conductor Star 3"/>
 
                             <ImageView
                                 android:id="@+id/iv_conductor_star4"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Conductor Star 4"/>
 
                             <ImageView
                                 android:id="@+id/iv_conductor_star5"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="4dp"
-                                android:src="@drawable/star_outline_icon"/>
+                                android:layout_width="22dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/star_outline_icon"
+                                android:contentDescription="Conductor Star 5"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- What to Review Card -->
+            <!-- What to Review Card with enhanced shadow -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/whiteKomyu"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -322,57 +349,63 @@
                         android:textSize="18sp"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Performance -->
+                    <!-- Performance Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_performance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:background="@drawable/card_border"
-                        android:backgroundTint="@color/whiteKomyu"
-                        app:cardCornerRadius="12dp">
+                        app:cardBackgroundColor="@color/whiteKomyu"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:padding="16dp">
 
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="26dp"
-                                android:src="@drawable/performance_icon"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_width="32dp"
+                                android:layout_height="30dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/performance_icon" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Performance"
-                                android:textSize="16sp"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Behavior -->
+                    <!-- Behavior Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_behavior"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:background="@drawable/card_border"
-                        android:backgroundTint="@color/whiteKomyu"
-                        app:cardCornerRadius="12dp">
+                        app:cardBackgroundColor="@color/whiteKomyu"
+                        app:cardCornerRadius="12dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="16dp">
+                            android:padding="16dp"
+                            android:gravity="center_vertical">
 
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/behavior_icon"
                                 android:layout_marginEnd="12dp"/>
 
@@ -386,24 +419,27 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Others -->
+                    <!-- Others Card -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_others"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/card_border"
-                        android:backgroundTint="@color/whiteKomyu"
-                        app:cardCornerRadius="12dp">
+                        app:cardBackgroundColor="@color/whiteKomyu"
+                        app:cardCornerRadius="12dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="16dp">
+                            android:padding="16dp"
+                            android:gravity="center_vertical">
 
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/others_icon"
                                 android:layout_marginEnd="12dp"/>
 
@@ -419,13 +455,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Share Your Experience Card -->
+            <!-- Share Your Experience Card with enhanced shadow -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/whiteKomyu"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -445,17 +482,19 @@
                     <EditText
                         android:id="@+id/et_experience"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="120dp"
                         android:gravity="top"
                         android:textColor="@color/black"
                         android:hint="Describe your experience (Optional)"
                         android:background="@drawable/border_background"
-                        android:padding="12dp"
-                        android:textSize="14sp"/>
+                        android:padding="16dp"
+                        android:textSize="14sp"
+                        android:maxLines="5"
+                        android:scrollbars="vertical"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Submit Button Card -->
+            <!-- Enhanced Submit Button Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_submit_review"
                 android:layout_width="match_parent"
@@ -463,12 +502,14 @@
                 android:clickable="true"
                 android:focusable="true"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/greenKomyu">
+                app:cardBackgroundColor="@color/greenKomyu"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="16dp"
+                    android:paddingVertical="18dp"
                     android:gravity="center"
                     android:text="Submit Rating"
                     android:textColor="@android:color/white"

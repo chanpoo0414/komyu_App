@@ -15,5 +15,7 @@
     <color name="bgGrey">#EFEFEF</color>
     <color name="RedLogout">#E7000B</color>
     <color name="GreenBgLogs">#B9FFD5</color>
-
+    <color name="light_gray_divider">#E0E0E0</color>
+    <color name="star_yellow">#FFD700</color>
+    <color name="star_outline_dark">#000000</color>
 </resources>

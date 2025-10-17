@@ -18,8 +18,6 @@ import retrofit2.Response;
 
 public class RatingFragment extends Fragment {
 
-
-//    not working rating
     private static final String ARG_TRANSACTION_ID = "transaction_id";
     private static final String ARG_DRIVER_NAME = "driver_name";
     private static final String ARG_CONDUCTOR_NAME = "conductor_name";
@@ -46,6 +44,9 @@ public class RatingFragment extends Fragment {
     // UI Components
     private View submitButton;
     private TextView submitButtonText;
+
+    // Prevent duplicate submissions
+    private boolean isPostSubmissionInProgress = false;
 
     public static RatingFragment newInstance(String transactionId, String driverName, String conductorName,
                                              String busNumber, String route, String commuterId, String commuterName) {
@@ -189,20 +190,20 @@ public class RatingFragment extends Fragment {
 
     private void updateReportTypeSelection(int[] typeIds) {
         // Reset all cards
-        getView().findViewById(R.id.card_performance).setBackgroundResource(R.drawable.card_border);
-        getView().findViewById(R.id.card_behavior).setBackgroundResource(R.drawable.card_border);
-        getView().findViewById(R.id.card_others).setBackgroundResource(R.drawable.card_border);
+        getView().findViewById(R.id.card_performance).setBackgroundResource(R.color.whiteKomyu);
+        getView().findViewById(R.id.card_behavior).setBackgroundResource(R.color.whiteKomyu);
+        getView().findViewById(R.id.card_others).setBackgroundResource(R.color.whiteKomyu);
 
         // Highlight selected card
         switch (selectedReportType) {
             case "Performance":
-                getView().findViewById(R.id.card_performance).setBackgroundResource(R.drawable.card_border_selected);
+                getView().findViewById(R.id.card_performance).setBackgroundResource(R.drawable.card_border_enhanced);
                 break;
             case "Behavior":
-                getView().findViewById(R.id.card_behavior).setBackgroundResource(R.drawable.card_border_selected);
+                getView().findViewById(R.id.card_behavior).setBackgroundResource(R.drawable.card_border_enhanced);
                 break;
             case "Others":
-                getView().findViewById(R.id.card_others).setBackgroundResource(R.drawable.card_border_selected);
+                getView().findViewById(R.id.card_others).setBackgroundResource(R.drawable.card_border_enhanced);
                 break;
         }
     }
@@ -294,32 +295,49 @@ public class RatingFragment extends Fragment {
         call.enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    APIResponse apiResponse = response.body();
+                Log.d("RatingFragment", "GET Response code: " + response.code());
 
-                    if (apiResponse.success == 1) {
-                        // Success with GET method
-                        handleSubmissionSuccess(apiResponse);
+                if (response.isSuccessful()) {
+                    APIResponse apiResponse = response.body();
+                    if (apiResponse != null) {
+                        if (apiResponse.success == 1) {
+                            // Success with GET method
+                            handleSubmissionSuccess(apiResponse);
+                        } else {
+                            // GET returned but with error, try POST
+                            Log.d("RatingFragment", "GET returned error: " + apiResponse.message);
+                            tryPostSubmission();
+                        }
                     } else {
-                        // Try POST method as fallback
+                        // Response body is null, try POST
+                        Log.d("RatingFragment", "GET response body is null");
                         tryPostSubmission();
                     }
                 } else {
-                    // Try POST method as fallback
+                    // HTTP error (like 500), try POST
+                    Log.e("RatingFragment", "GET HTTP Error: " + response.code());
                     tryPostSubmission();
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
-                handleSubmissionError("Network error: " + t.getMessage());
-                Log.e("RatingFragment", "GET Method Failure: " + t.getMessage());
+                Log.e("RatingFragment", "GET Network error: " + t.getMessage());
+                tryPostSubmission();
             }
         });
     }
 
     private void tryPostSubmission() {
-        Log.d("RatingFragment", "Trying POST submission as fallback");
+        Log.d("RatingFragment", "Attempting POST submission as fallback");
+
+        // Prevent infinite recursion by checking if we're already in fallback
+        if (isPostSubmissionInProgress) {
+            Log.e("RatingFragment", "POST submission already in progress, skipping");
+            return;
+        }
+
+        isPostSubmissionInProgress = true;
 
         APIService apiService = APIClient.getInstance().create(APIService.class);
 
@@ -341,9 +359,11 @@ public class RatingFragment extends Fragment {
         call.enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                isPostSubmissionInProgress = false;
+                Log.d("RatingFragment", "POST Response code: " + response.code());
+
                 if (response.isSuccessful() && response.body() != null) {
                     APIResponse apiResponse = response.body();
-
                     if (apiResponse.success == 1) {
                         handleSubmissionSuccess(apiResponse);
                     } else {
@@ -351,12 +371,19 @@ public class RatingFragment extends Fragment {
                                 (apiResponse.message != null ? apiResponse.message : "Unknown error"));
                     }
                 } else {
-                    handleSubmissionError("Server error. Please try again later.");
+                    String errorMsg = "Server error";
+                    if (!response.isSuccessful()) {
+                        errorMsg = "Server error (HTTP " + response.code() + ")";
+                    } else if (response.body() == null) {
+                        errorMsg = "Server returned empty response";
+                    }
+                    handleSubmissionError(errorMsg + ". Please try again later.");
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
+                isPostSubmissionInProgress = false;
                 handleSubmissionError("Network error: " + t.getMessage());
             }
         });
@@ -366,12 +393,7 @@ public class RatingFragment extends Fragment {
         setSubmitButtonState(true, "Submit Rating");
 
         String successMessage = String.format(
-                "✅ Rating Submitted Successfully!\n\n" +
-                        "Overall Ride: %d/5 ⭐\n" +
-                        "Driver (%s): %d/5 ⭐\n" +
-                        "Conductor (%s): %d/5 ⭐\n" +
-                        "Report Type: %s\n" +
-                        "Thank you for your feedback!",
+                String.format("✅ Rating Submitted Successfully!\n\nOverall Ride: %%d/5 ⭐\nDriver (%%s): %%d/5 ⭐\nConductor (%%s): %%d/5 ⭐\nReport Type: %%s\nThank you for your feedback!"),
                 selectedOverallRating,
                 driverName != null ? driverName : "Not specified",
                 selectedDriverRating,

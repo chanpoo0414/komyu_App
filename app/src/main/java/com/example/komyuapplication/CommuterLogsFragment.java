@@ -377,7 +377,7 @@ public class CommuterLogsFragment extends Fragment {
 
         // Set amount color
         if (activity.amount.startsWith("+")) {
-            amount.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            amount.setTextColor(getResources().getColor(android.R.color.holo_green_light));
         } else {
             amount.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
         }

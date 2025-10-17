@@ -1,14 +1,24 @@
 package com.example.komyuapplication;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface APIService {
 
+
+    @Multipart
+    @POST("upload_image.php")
+    Call<APIResponse> uploadImage(
+            @Part MultipartBody.Part image,
+            @Part("file_name") okhttp3.RequestBody fileName
+    );
     @FormUrlEncoded
     @POST("commuterRegister.php")
     Call<APIResponse> register(
@@ -101,7 +111,7 @@ public interface APIService {
             @Field("comments") String comments
     );
 
-    // GET method for Hostinger compatibility
+
     @GET("submit_rating_get.php")
     Call<APIResponse> submitRatingGet(
             @Query("cid") String commuterId,
@@ -116,6 +126,14 @@ public interface APIService {
             @Query("crating") int conductorRating,
             @Query("rtype") String reportType,
             @Query("cmt") String comments
+    );
+
+//    kuha na ang reviewed rates
+    @FormUrlEncoded
+    @POST("check_rating_status.php")
+    Call<APIResponse> checkRatingStatus(
+            @Field("transaction_id") String transactionId,
+            @Field("commuter_id") String commuterId
     );
 
     @FormUrlEncoded

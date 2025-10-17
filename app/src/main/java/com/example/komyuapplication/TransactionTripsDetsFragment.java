@@ -15,12 +15,18 @@ import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TransactionTripsDetsFragment extends Fragment {
 
     private static final String ARG_ACTIVITY = "activity_data";
     private APIResponse.RecentActivity activity;
     private UserSessionManager sessionManager;
+    private AuthRepository authRepository;
+    private boolean isAlreadyReviewed = false;
+    private APIResponse.RatingResponse reviewDetails;
 
     public static TransactionTripsDetsFragment newInstance(APIResponse.RecentActivity activity) {
         TransactionTripsDetsFragment fragment = new TransactionTripsDetsFragment();
@@ -37,6 +43,7 @@ public class TransactionTripsDetsFragment extends Fragment {
             activity = (APIResponse.RecentActivity) getArguments().getSerializable(ARG_ACTIVITY);
         }
         sessionManager = new UserSessionManager(requireContext());
+        authRepository = new AuthRepository(requireContext());
     }
 
     @Nullable
@@ -49,12 +56,79 @@ public class TransactionTripsDetsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupBackButton();
-        populateData();
+        checkIfAlreadyReviewed();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh the rating status when returning from RatingFragment
+        Log.d("TripDets", "Fragment resumed - refreshing rating status");
+        checkIfAlreadyReviewed();
     }
 
     private void setupBackButton() {
         ImageView btnBack = getView().findViewById(R.id.btn_back_transactionDetails);
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+    }
+
+    private void checkIfAlreadyReviewed() {
+        String currentCommuterId = getCurrentCommuterId();
+        String transactionId = activity.transaction_code != null ? activity.transaction_code : "Unknown";
+
+        Log.d("TripDets", "=== CHECKING RATING STATUS ===");
+        Log.d("TripDets", "Commuter ID: " + currentCommuterId);
+        Log.d("TripDets", "Transaction ID: " + transactionId);
+        Log.d("TripDets", "Activity Type: " + activity.type);
+        Log.d("TripDets", "Activity Title: " + activity.title);
+
+        if (currentCommuterId.equals("Unknown") || transactionId.equals("Unknown")) {
+            Log.w("TripDets", "Cannot check rating status - missing commuter ID or transaction ID");
+            populateData(); // Show default view
+            return;
+        }
+
+        Log.d("TripDets", "Checking if trip is already reviewed...");
+        authRepository.checkTripRatingStatus(transactionId, currentCommuterId, new Callback<APIResponse>() {
+            @Override
+            public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
+                Log.d("TripDets", "API Response - Success: " + response.isSuccessful());
+                Log.d("TripDets", "API Response - Code: " + response.code());
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("TripDets", "API Body - Success: " + response.body().success);
+                    Log.d("TripDets", "API Body - Message: " + response.body().message);
+
+                    if (response.body().success == 1) {
+                        // Trip is already reviewed
+                        isAlreadyReviewed = true;
+                        reviewDetails = response.body().rating_data;
+                        Log.d("TripDets", "Trip is already reviewed - Overall: " +
+                                (reviewDetails != null ? reviewDetails.overall_rating : "N/A"));
+                        populateData(); // Show reviewed view
+                    } else {
+                        // Trip is not reviewed or error
+                        isAlreadyReviewed = false;
+                        reviewDetails = null;
+                        Log.d("TripDets", "Trip is not reviewed yet - " + response.body().message);
+                        populateData(); // Show rating form view
+                    }
+                } else {
+                    isAlreadyReviewed = false;
+                    reviewDetails = null;
+                    Log.d("TripDets", "API call failed or empty response");
+                    populateData(); // Show rating form view
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                Log.e("TripDets", "Error checking rating status: " + t.getMessage());
+                isAlreadyReviewed = false;
+                reviewDetails = null;
+                populateData(); // Show default view
+            }
+        });
     }
 
     private void populateData() {
@@ -76,6 +150,7 @@ public class TransactionTripsDetsFragment extends Fragment {
             Log.d("TripDets", "Conductor: " + activity.conductor_name);
             Log.d("TripDets", "User Category: " + activity.user_category);
             Log.d("TripDets", "Transaction Code: " + activity.transaction_code);
+            Log.d("TripDets", "Already Reviewed: " + isAlreadyReviewed);
             Log.d("TripDets", "=== END DEBUG ===");
 
             // Set main title and icon
@@ -90,7 +165,7 @@ public class TransactionTripsDetsFragment extends Fragment {
             amount.setText(activity.amount);
             amount.setTextColor(getResources().getColor(R.color.RedLogout));
 
-            // Parse and format date - CORRECT TIME FORMATTING
+            // Parse and format date
             TextView datetime = getView().findViewById(R.id.tv_transactionDetails_datetime);
             if (activity.date != null && !activity.date.isEmpty()) {
                 try {
@@ -110,13 +185,12 @@ public class TransactionTripsDetsFragment extends Fragment {
                 Log.d("TripDets", "Date field is null or empty");
             }
 
-            // Set route - use the new field
+            // Set route
             TextView route = getView().findViewById(R.id.tv_TransactionDetails_route);
             if (activity.route != null && !activity.route.isEmpty()) {
                 route.setText(activity.route);
                 Log.d("TripDets", "Route set from route field: " + activity.route);
             } else if (activity.subtitle != null && activity.subtitle.contains("•")) {
-                // Fallback to subtitle parsing
                 String[] parts = activity.subtitle.split("•");
                 if (parts.length >= 2) {
                     String routeFromSubtitle = parts[1].trim();
@@ -131,7 +205,7 @@ public class TransactionTripsDetsFragment extends Fragment {
                 Log.d("TripDets", "No route data available");
             }
 
-            // Set driver name - use the new field
+            // Set driver name
             TextView driver = getView().findViewById(R.id.tv_TransactionDetails_driver);
             if (activity.driver_name != null && !activity.driver_name.isEmpty()) {
                 driver.setText(activity.driver_name);
@@ -141,7 +215,7 @@ public class TransactionTripsDetsFragment extends Fragment {
                 Log.d("TripDets", "No driver data available");
             }
 
-            // Set conductor name - use the new field
+            // Set conductor name
             TextView conductor = getView().findViewById(R.id.tv_TransactionDetails_conductor);
             if (activity.conductor_name != null && !activity.conductor_name.isEmpty()) {
                 conductor.setText(activity.conductor_name);
@@ -151,7 +225,7 @@ public class TransactionTripsDetsFragment extends Fragment {
                 Log.d("TripDets", "No conductor data available");
             }
 
-            // Set user category - use the new field
+            // Set user category
             TextView category = getView().findViewById(R.id.tv_transactionDetails_category);
             if (activity.user_category != null && !activity.user_category.isEmpty()) {
                 category.setText(activity.user_category);
@@ -168,56 +242,145 @@ public class TransactionTripsDetsFragment extends Fragment {
             transactionNumber.setText("Transaction Number: " + transactionId);
             Log.d("TripDets", "Transaction number set: " + transactionId);
 
-            // ADD RATING CARD CLICK LISTENER - FIXED VERSION
-            View reviewCard = getView().findViewById(R.id.card_review_btn);
-            if (reviewCard != null) {
-                reviewCard.setOnClickListener(v -> {
-                    Log.d("TripDets", "Rating card clicked!");
-
-                    // Get current commuter data from session
-                    String currentCommuterId = getCurrentCommuterId();
-                    String currentCommuterName = getCurrentCommuterName();
-
-                    Log.d("TripDets", "Current Commuter ID: " + currentCommuterId);
-                    Log.d("TripDets", "Current Commuter Name: " + currentCommuterName);
-
-                    // Navigate to RatingFragment with complete trip data
-                    RatingFragment ratingFragment = RatingFragment.newInstance(
-                            activity.transaction_code != null ? activity.transaction_code : "Unknown",
-                            activity.driver_name != null ? activity.driver_name : "Not Available",
-                            activity.conductor_name != null ? activity.conductor_name : "Not Available",
-                            activity.plate_number != null ? activity.plate_number : "Not Available",
-                            activity.route != null ? activity.route : "Not Available",
-                            currentCommuterId,
-                            currentCommuterName
-                    );
-
-                    requireActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, ratingFragment)
-                            .addToBackStack("rating_fragment")
-                            .commit();
-
-                    Log.d("TripDets", "Navigating to RatingFragment with complete data");
-                });
-
-                // Also make sure the individual stars are NOT clickable in the transaction details
-                // Only the entire card should be clickable to navigate to the rating page
-                int[] starIds = {R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5};
-                for (int starId : starIds) {
-                    ImageView star = getView().findViewById(starId);
-                    if (star != null) {
-                        star.setClickable(false); // Disable individual star clicks in details page
-                        star.setFocusable(false); // Also disable focus for better UX
-                    }
-                }
-            } else {
-                Log.e("TripDets", "Review card not found!");
-            }
+            // Configure the rating section based on review status
+            configureRatingSection();
 
         } catch (Exception e) {
             Log.e("TripDets", "Error in populateData: " + e.getMessage());
             e.printStackTrace();
             showDefaultValues();
+        }
+    }
+
+    private void configureRatingSection() {
+        View reviewCard = getView().findViewById(R.id.card_review_btn);
+        TextView detailsText = getView().findViewById(R.id.tv_details);
+
+        if (isAlreadyReviewed) {
+            // Trip is already reviewed - show colored stars only
+            configureReviewedView();
+        } else {
+            // Trip is not reviewed - show rating form
+            configureRatingFormView();
+        }
+    }
+
+    private void configureReviewedView() {
+        View reviewCard = getView().findViewById(R.id.card_review_btn);
+        TextView detailsText = getView().findViewById(R.id.tv_details);
+
+        // Update the text to indicate it's reviewed
+        detailsText.setText("Thank you for your feedback!");
+
+        // Make card non-clickable and grey it out
+        reviewCard.setClickable(false);
+        reviewCard.setEnabled(false);
+        reviewCard.setAlpha(0.6f);
+
+        // Display the actual ratings if we have them, otherwise show default
+        if (reviewDetails != null && reviewDetails.overall_rating > 0) {
+            displayReviewStars();
+        } else {
+            // If no review details or no rating values, just show filled stars
+            displayDefaultReviewedStars();
+        }
+    }
+
+    private void configureRatingFormView() {
+        View reviewCard = getView().findViewById(R.id.card_review_btn);
+        TextView detailsText = getView().findViewById(R.id.tv_details);
+
+        // Set default text for rating form
+        detailsText.setText("Help us improve your experience by providing feedback");
+
+        // Make card clickable for rating
+        reviewCard.setClickable(true);
+        reviewCard.setEnabled(true);
+        reviewCard.setAlpha(1.0f);
+
+        // Set click listener to navigate to RatingFragment
+        reviewCard.setOnClickListener(v -> {
+            Log.d("TripDets", "Rating card clicked - navigating to RatingFragment");
+
+            // Get current commuter data from session
+            String currentCommuterId = getCurrentCommuterId();
+            String currentCommuterName = getCurrentCommuterName();
+
+            Log.d("TripDets", "Current Commuter ID: " + currentCommuterId);
+            Log.d("TripDets", "Current Commuter Name: " + currentCommuterName);
+
+            // Navigate to RatingFragment with complete trip data
+            RatingFragment ratingFragment = RatingFragment.newInstance(
+                    activity.transaction_code != null ? activity.transaction_code : "Unknown",
+                    activity.driver_name != null ? activity.driver_name : "Not Available",
+                    activity.conductor_name != null ? activity.conductor_name : "Not Available",
+                    activity.plate_number != null ? activity.plate_number : "Not Available",
+                    activity.route != null ? activity.route : "Not Available",
+                    currentCommuterId,
+                    currentCommuterName
+            );
+
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, ratingFragment)
+                    .addToBackStack("rating_fragment")
+                    .commit();
+
+            Log.d("TripDets", "Navigating to RatingFragment with complete data");
+        });
+
+        // Reset stars to outline for unreviewed trips
+        resetStarsToOutline();
+    }
+
+    private void displayReviewStars() {
+        // Display the actual ratings from the review
+        int[] starIds = {R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5};
+        int overallRating = reviewDetails.overall_rating;
+
+        // Fill stars based on overall rating
+        for (int i = 0; i < starIds.length; i++) {
+            ImageView star = getView().findViewById(starIds[i]);
+            if (star != null) {
+                if (i < overallRating) {
+                    star.setImageResource(R.drawable.star_filled_icon);
+                } else {
+                    star.setImageResource(R.drawable.star_outline_icon);
+                }
+                // Make sure stars are not clickable
+                star.setClickable(false);
+                star.setFocusable(false);
+            }
+        }
+
+        Log.d("TripDets", "Displayed review stars with rating: " + overallRating + "/5");
+    }
+
+    private void displayDefaultReviewedStars() {
+        // If we don't have specific rating details, just show all stars filled
+        int[] starIds = {R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5};
+
+        for (int starId : starIds) {
+            ImageView star = getView().findViewById(starId);
+            if (star != null) {
+                star.setImageResource(R.drawable.star_filled_icon);
+                star.setClickable(false);
+                star.setFocusable(false);
+            }
+        }
+
+        Log.d("TripDets", "Displayed default reviewed stars");
+    }
+
+    private void resetStarsToOutline() {
+        // Reset all stars to outline for unreviewed trips
+        int[] starIds = {R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5};
+        for (int starId : starIds) {
+            ImageView star = getView().findViewById(starId);
+            if (star != null) {
+                star.setImageResource(R.drawable.star_outline_icon);
+                star.setClickable(false);
+                star.setFocusable(false);
+            }
         }
     }
 
@@ -238,13 +401,13 @@ public class TransactionTripsDetsFragment extends Fragment {
                 // Fallback to username if commuterId is not available
                 String username = sessionManager.getUsername();
                 if (username != null) {
-                    return username; // Using username as fallback identifier
+                    return username;
                 }
             }
         } catch (Exception e) {
             Log.e("TripDets", "Error getting commuter ID: " + e.getMessage());
         }
-        return "Unknown"; // Safe fallback
+        return "Unknown";
     }
 
     /**
@@ -274,7 +437,7 @@ public class TransactionTripsDetsFragment extends Fragment {
         } catch (Exception e) {
             Log.e("TripDets", "Error getting commuter name: " + e.getMessage());
         }
-        return "Commuter"; // Safe fallback
+        return "Commuter";
     }
 
     private void showDefaultValues() {

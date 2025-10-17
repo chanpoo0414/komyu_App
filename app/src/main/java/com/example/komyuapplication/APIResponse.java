@@ -126,6 +126,13 @@ public class APIResponse {
         public int report_id;
         public String status;
         public String submitted_at;
+        public int overall_rating;    // Add this
+        public int driver_rating;     // Add this
+        public int conductor_rating;  // Add this
+        public String report_type;    // Add this
+        public String remarks;        // Add this
+
+        public RatingResponse() {}
     }
 
     public static class RatingData {

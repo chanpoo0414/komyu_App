@@ -29,9 +29,6 @@
             android:name=".CommuterDashboard"
             android:exported="false" />
         <activity
-            android:name=".DriverDashboard"
-            android:exported="false" />
-        <activity
             android:name=".ForgetPasswordP2"
             android:exported="false" />
         <activity

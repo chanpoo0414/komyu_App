@@ -30,7 +30,9 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
     private boolean isRoleSelected = false;
 
     private MaterialButton btnSubmit;
-    private SignUPData data; // ✅ carries all data from previous pages
+    private SignUPData data;
+    private Uri frontImageUri = null;
+    private Uri backImageUri = null;
 
     private final ActivityResultLauncher<String> imagePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.GetContent(), this::onImagePicked);
@@ -41,14 +43,12 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_final_signup_page4);
 
-        // ✅ Make sure fragments exist in the XML layout
         validIdFragment = (ValidIdFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_valid_id_container);
 
         categoriesFragment = (CategoriesFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_categories_container);
 
-        // ✅ retrieve full signup data from previous pages
         data = (SignUPData) getIntent().getSerializableExtra("data");
         if (data == null) {
             Toast.makeText(this, "Missing signup data!", Toast.LENGTH_SHORT).show();
@@ -56,23 +56,19 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
             return;
         }
 
-        // Back button
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> onBackPressed());
 
-        // Submit button
         btnSubmit = findViewById(R.id.btnSubmit);
         btnSubmit.setEnabled(false);
         btnSubmit.setBackgroundTintList(getColorStateList(R.color.lightGreenKomyu));
 
         btnSubmit.setOnClickListener(v -> submitToServer());
 
-        // Login text
         TextView txtLogin = findViewById(R.id.txtLogin);
         txtLogin.setOnClickListener(v -> showCancelDialog());
     }
 
-    // === pick image (not saving to DB yet) ===
     public void openImagePicker(String side) {
         currentSide = side;
         imagePickerLauncher.launch("image/*");
@@ -82,19 +78,19 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
         if (uri != null && validIdFragment != null) {
             if ("front".equals(currentSide)) {
                 validIdFragment.updateFrontImage(uri);
+                frontImageUri = uri;
             } else if ("back".equals(currentSide)) {
                 validIdFragment.updateBackImage(uri);
+                backImageUri = uri;
             }
         }
     }
 
-    // === listener callbacks ===
     @Override
     public void onValidIdSelected(String id) {
         isValidIdSelected = (id != null && !id.isEmpty());
-        data.typeOfId = id; // ✅ save to data
+        data.typeOfId = id;
 
-        // auto-assign role if matches
         if (id.equals("Student ID")) {
             onRoleSelected("Student");
         } else if (id.equals("Senior Citizen ID")) {
@@ -111,11 +107,10 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
     @Override
     public void onRoleSelected(String role) {
         isRoleSelected = (role != null && !role.isEmpty());
-        data.categories = role; // ✅ save to data
+        data.categories = role;
         validateForm();
     }
 
-    // === validate form ===
     private void validateForm() {
         boolean allValid = isValidIdSelected && isRoleSelected;
         btnSubmit.setEnabled(allValid);
@@ -129,21 +124,73 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
         }
     }
 
-    // === submit to API ===
     private void submitToServer() {
-        // ✅ for now, don’t send pictures to backend
-        data.frontId = "";
-        data.backId = "";
+        if (frontImageUri == null || backImageUri == null) {
+            Toast.makeText(this, "Please upload both front and back ID images", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        AuthRepository repo = new AuthRepository();
+        btnSubmit.setEnabled(false);
+        btnSubmit.setText("Uploading...");
+
+        // FIX: Use the constructor with context
+        AuthRepository repo = new AuthRepository(this); // Pass 'this' as context
+
+        uploadImagesAndRegister(repo);
+    }
+
+    private void uploadImagesAndRegister(AuthRepository repo) {
+        // Upload front image
+        repo.uploadImage(frontImageUri, "front_" + System.currentTimeMillis() + ".jpg", new Callback<APIResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<APIResponse> call, @NonNull Response<APIResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().success == 1) {
+                    String frontImageUrl = response.body().message; // URL returned from server
+                    data.frontId = frontImageUrl;
+
+                    // Upload back image
+                    repo.uploadImage(backImageUri, "back_" + System.currentTimeMillis() + ".jpg", new Callback<APIResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<APIResponse> call, @NonNull Response<APIResponse> response) {
+                            if (response.isSuccessful() && response.body() != null && response.body().success == 1) {
+                                String backImageUrl = response.body().message;
+                                data.backId = backImageUrl;
+
+                                // Now register with image URLs
+                                completeRegistration(repo);
+                            } else {
+                                handleUploadError("Back image upload failed");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<APIResponse> call, Throwable t) {
+                            handleUploadError("Back image upload error: " + t.getMessage());
+                        }
+                    });
+                } else {
+                    handleUploadError("Front image upload failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse> call, Throwable t) {
+                handleUploadError("Front image upload error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void completeRegistration(AuthRepository repo) {
         repo.register(data, new Callback<APIResponse>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse> call, @NonNull Response<APIResponse> response) {
+                btnSubmit.setEnabled(true);
+                btnSubmit.setText("Submit");
+
                 if (response.isSuccessful() && response.body() != null) {
                     APIResponse res = response.body();
                     if (res.success == 1) {
                         Toast.makeText(FinalSignupPage4.this, "Registered successfully!", Toast.LENGTH_SHORT).show();
-                        // ✅ go to login
                         Intent i = new Intent(FinalSignupPage4.this, LoginFirstPage.class);
                         startActivity(i);
                         finish();
@@ -157,12 +204,19 @@ public class FinalSignupPage4 extends AppCompatActivity implements SignUpPage4Li
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
+                btnSubmit.setEnabled(true);
+                btnSubmit.setText("Submit");
                 Toast.makeText(FinalSignupPage4.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // === cancel dialog ===
+    private void handleUploadError(String message) {
+        btnSubmit.setEnabled(true);
+        btnSubmit.setText("Submit");
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
     private void showCancelDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Cancel Sign Up?")
