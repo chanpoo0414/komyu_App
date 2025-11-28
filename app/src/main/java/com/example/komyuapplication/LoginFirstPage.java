@@ -26,6 +26,17 @@ public class LoginFirstPage extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_first_page);
 
+        // NEW: Check if user should be automatically logged in (30-day remember me)
+        UserSessionManager sessionManager = new UserSessionManager(LoginFirstPage.this);
+        if (sessionManager.isSessionValid()) {
+            // Auto-login user and redirect to dashboard
+            CustomToast.showSuccess(this, "Welcome back!");
+            startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
+            finish();
+            return;
+        }
+
+        // ALL YOUR EXISTING CODE CONTINUES UNCHANGED BELOW
         TextInputEditText editUsername = findViewById(R.id.editUsername);
         TextInputEditText editPassword = findViewById(R.id.editPassword);
         Button btnSignIn = findViewById(R.id.btnSignIn);
@@ -46,7 +57,7 @@ public class LoginFirstPage extends AppCompatActivity {
             String password = editPassword.getText() == null ? "" : editPassword.getText().toString().trim();
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter both Username and password.", Toast.LENGTH_SHORT).show();
+                CustomToast.showWarning(this, "Please enter both Username and password.");
                 return;
             }
 
@@ -57,32 +68,31 @@ public class LoginFirstPage extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
                     if (!response.isSuccessful() || response.body() == null) {
-                        Toast.makeText(LoginFirstPage.this, "Login failed. Try again.", Toast.LENGTH_SHORT).show();
+                        CustomToast.showError(LoginFirstPage.this, "Login failed. Try again.");
                         return;
                     }
 
                     APIResponse res = response.body();
                     if (res.success == 1) {
-                        // Create user session after successful login
+                        // CHANGED: Create remember me session instead of regular session
                         UserSessionManager sessionManager = new UserSessionManager(LoginFirstPage.this);
-                        sessionManager.createLoginSession(username);
+                        sessionManager.createRememberMeSession(username);
 
                         // Fetch complete user profile and save it
                         fetchAndSaveUserProfile(username, sessionManager);
 
-                        Toast.makeText(LoginFirstPage.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        CustomToast.showSuccess(LoginFirstPage.this, "Login successful!");
                         startActivity(new Intent(LoginFirstPage.this, CommuterDashboard.class));
                         finish();
                     } else {
-                        Toast.makeText(LoginFirstPage.this,
-                                res.message == null ? "Invalid credentials" : res.message,
-                                Toast.LENGTH_SHORT).show();
+                        CustomToast.showError(LoginFirstPage.this,
+                                res.message == null ? "Invalid credentials" : res.message);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<APIResponse> call, Throwable t) {
-                    Toast.makeText(LoginFirstPage.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    CustomToast.showError(LoginFirstPage.this, "Network error: " + t.getMessage());
                 }
             });
         });

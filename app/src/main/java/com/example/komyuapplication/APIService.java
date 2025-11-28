@@ -12,13 +12,13 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-
     @Multipart
     @POST("upload_image.php")
     Call<APIResponse> uploadImage(
             @Part MultipartBody.Part image,
             @Part("file_name") okhttp3.RequestBody fileName
     );
+
     @FormUrlEncoded
     @POST("commuterRegister.php")
     Call<APIResponse> register(
@@ -45,7 +45,7 @@ public interface APIService {
             @Field("Password") String password
     );
 
-//    newly added here 09-23-25
+    //    newly added here 09-23-25
     @FormUrlEncoded
     @POST("getUserProfile.php")
     Call<APIResponse> getUserProfile(
@@ -66,24 +66,31 @@ public interface APIService {
             @Field("Username") String username
     );
 
+
+    @FormUrlEncoded
+    @POST("getTransactionHistory.php")
+    Call<APIResponse> getTransactionHistory(
+            @Field("Username") String username,
+            @Field("days") int days // 30 days history
+    );
+
     @FormUrlEncoded
     @POST("getPendingTransactions.php")
     Call<APIResponse> getPendingTransactions(
             @Field("commuter_id") String commuterId
     );
 
-    @FormUrlEncoded
-    @POST("updateProfile.php")
-    Call<APIResponse> updateProfile(
-            @Field("username") String username,
-            @Field("first_name") String firstName,
-            @Field("middle_name") String middleName,
-            @Field("last_name") String lastName,
-            @Field("email") String email,
-            @Field("phone") String phone,
-            @Field("address") String address
-    );
 
+
+    @FormUrlEncoded
+    @POST("debug_payment.php")  // TEMPORARY DEBUG ENDPOINT
+    Call<APIResponse> processBusPaymentDebug(
+            @Field("username") String username,
+            @Field("bus_number") String busNumber,
+            @Field("driver_id") String driverId,
+            @Field("conductor_id") String conductorId,
+            @Field("fare") double fare
+    );
     @FormUrlEncoded
     @POST("process_payment.php")
     Call<APIResponse> processBusPayment(
@@ -111,14 +118,13 @@ public interface APIService {
             @Field("comments") String comments
     );
 
-
     @GET("submit_rating_get.php")
     Call<APIResponse> submitRatingGet(
             @Query("cid") String commuterId,
             @Query("cname") String commuterName,
             @Query("tid") String transactionId,
             @Query("dname") String driverName,
-            @Query("cname2") String conductorName,
+            @Query("cond_name") String conductorName, // Changed from "cname2" to "cond_name"
             @Query("bus") String busNumber,
             @Query("rt") String route,
             @Query("orating") int overallRating,
@@ -128,7 +134,7 @@ public interface APIService {
             @Query("cmt") String comments
     );
 
-//    kuha na ang reviewed rates
+    //    kuha na ang reviewed rates
     @FormUrlEncoded
     @POST("check_rating_status.php")
     Call<APIResponse> checkRatingStatus(
@@ -141,5 +147,23 @@ public interface APIService {
     Call<APIResponse> getReportDetails(
             @Field("report_id") String reportId
     );
+
+
+    @FormUrlEncoded
+    @POST("Update_profile.php")
+    Call<APIResponse> updateProfile(
+            @Field("commuter_id") String commuterId,
+            @Field("username") String username,
+            @Field("first_name") String firstName,
+            @Field("middle_name") String middleName,
+            @Field("last_name") String lastName,
+            @Field("email") String email,
+            @Field("phone_number") String phoneNumber,
+            @Field("address") String address,
+            @Field("date_of_birth") String dateOfBirth
+    );
+
+    @POST("getCurrentUser.php")
+    Call<APIResponse> getCurrentUser();
 
 }

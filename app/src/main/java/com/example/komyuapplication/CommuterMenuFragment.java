@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class CommuterMenuFragment extends Fragment {
     private TextView tvFullName, tvStudentId, tvUserRole;
     private ImageView imgProfileIcon;
     private AuthRepository authRepository;
-    private SharedPreferences sharedPreferences;
+    private UserSessionManager sessionManager;
 
     @Nullable
     @Override
@@ -42,11 +43,11 @@ public class CommuterMenuFragment extends Fragment {
         // Initialize views
         initializeViews(view);
 
-        // Initialize SharedPreferences
+        // Initialize UserSessionManager
+        sessionManager = new UserSessionManager(requireContext());
 
-
-        // Initialize repository
-        authRepository = new AuthRepository();
+        // Initialize repository with context
+        authRepository = new AuthRepository(requireContext());
 
         // Load user data
         loadUserData();
@@ -144,14 +145,7 @@ public class CommuterMenuFragment extends Fragment {
     }
 
     private void setupClickListeners(View view) {
-        // Edit Profile Button
-        View btnEditProfile = view.findViewById(R.id.btnEditProfile);
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openEditProfileFragment();
-            }
-        });
+
 
         // Account Settings Button
         View btnAccountSettings = view.findViewById(R.id.btnAccountSettings);
@@ -171,14 +165,6 @@ public class CommuterMenuFragment extends Fragment {
             }
         });
 
-        // Notifications Button
-        View btnNotifications = view.findViewById(R.id.btnNotifications);
-        btnNotifications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNotifications();
-            }
-        });
 
         // Help & Support Button
         View btnHelpSupport = view.findViewById(R.id.btnHelpSupport);
@@ -217,23 +203,28 @@ public class CommuterMenuFragment extends Fragment {
         });
     }
 
-    private void openEditProfileFragment() {
-        SettingsEditProfileFragment editProfileFragment = new SettingsEditProfileFragment();
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, editProfileFragment);
-        transaction.addToBackStack("edit_profile");
-        transaction.commit();
-    }
+
 
     private void openAccountSettings() {
-        // Create and open Account Settings Fragment
-        AccountSettingsFragment accountSettingsFragment = new AccountSettingsFragment();
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, accountSettingsFragment);
-        transaction.addToBackStack("account_settings");
-        transaction.commit();
+        AccountSettingsFragment fragment = new AccountSettingsFragment();
 
+        // Pass username via arguments
+        Bundle args = new Bundle();
 
+        // Get username from parent activity
+        if (getActivity() instanceof CommuterDashboard) {
+            CommuterDashboard activity = (CommuterDashboard) getActivity();
+            String username = activity.getUsername();
+            args.putString("username", username);
+            Log.d("CommuterMenu", "Passing username to AccountSettings: " + username);
+        }
+
+        fragment.setArguments(args);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void openSecurityPrivacy() {
@@ -318,7 +309,7 @@ public class CommuterMenuFragment extends Fragment {
     }
 
     private void performLogout() {
-        // Clear session data
+        // Clear session data using UserSessionManager
         clearUserSession();
 
         // Navigate back to login page
@@ -336,10 +327,15 @@ public class CommuterMenuFragment extends Fragment {
     }
 
     private void clearUserSession() {
-        // Clear SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        // Use UserSessionManager to clear the session
+        if (sessionManager != null) {
+            sessionManager.logoutUser();
+        }
+
+        // Also clear any repository sessions
+        if (authRepository != null) {
+            authRepository.logout();
+        }
     }
 
     private void showError(String message) {

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -244,17 +243,17 @@ public class RatingFragment extends Fragment {
     private void submitReview() {
         // Validate ratings
         if (selectedOverallRating == 0) {
-            Toast.makeText(getContext(), "Please provide an overall ride rating", Toast.LENGTH_SHORT).show();
+            CustomToast.showWarning(requireActivity(), "Please provide an overall ride rating");
             return;
         }
 
         if (selectedDriverRating == 0) {
-            Toast.makeText(getContext(), "Please rate the driver", Toast.LENGTH_SHORT).show();
+            CustomToast.showWarning(requireActivity(), "Please rate the driver");
             return;
         }
 
         if (selectedConductorRating == 0) {
-            Toast.makeText(getContext(), "Please rate the conductor", Toast.LENGTH_SHORT).show();
+            CustomToast.showWarning(requireActivity(), "Please rate the conductor");
             return;
         }
 
@@ -269,6 +268,7 @@ public class RatingFragment extends Fragment {
     private void submitRatingToAPI() {
         // Show loading state
         setSubmitButtonState(false, "Submitting...");
+        CustomToast.show(requireActivity(), "Submitting your rating...");
 
         // Log the data being sent
         logRatingData();
@@ -341,6 +341,7 @@ public class RatingFragment extends Fragment {
 
         APIService apiService = APIClient.getInstance().create(APIService.class);
 
+        // Make sure this matches your actual POST endpoint filename
         Call<APIResponse> call = apiService.submitRating(
                 commuterId,
                 commuterName,
@@ -374,6 +375,10 @@ public class RatingFragment extends Fragment {
                     String errorMsg = "Server error";
                     if (!response.isSuccessful()) {
                         errorMsg = "Server error (HTTP " + response.code() + ")";
+                        // If it's 404, suggest checking the endpoint URL
+                        if (response.code() == 404) {
+                            errorMsg += " - Endpoint not found. Please check server configuration.";
+                        }
                     } else if (response.body() == null) {
                         errorMsg = "Server returned empty response";
                     }
@@ -393,16 +398,11 @@ public class RatingFragment extends Fragment {
         setSubmitButtonState(true, "Submit Rating");
 
         String successMessage = String.format(
-                String.format("✅ Rating Submitted Successfully!\n\nOverall Ride: %%d/5 ⭐\nDriver (%%s): %%d/5 ⭐\nConductor (%%s): %%d/5 ⭐\nReport Type: %%s\nThank you for your feedback!"),
-                selectedOverallRating,
-                driverName != null ? driverName : "Not specified",
-                selectedDriverRating,
-                conductorName != null ? conductorName : "Not specified",
-                selectedConductorRating,
-                selectedReportType
+                "Rating Submitted Successfully!\n\nOverall Ride: %d/5 ⭐\nThank you for your feedback!",
+                selectedOverallRating
         );
 
-        Toast.makeText(getContext(), successMessage, Toast.LENGTH_LONG).show();
+        CustomToast.showSuccess(requireActivity(), successMessage);
 
         // Log success
         if (apiResponse.rating_data != null) {
@@ -419,7 +419,7 @@ public class RatingFragment extends Fragment {
         setSubmitButtonState(true, "Submit Rating");
 
         Log.e("RatingFragment", "Submission error: " + error);
-        Toast.makeText(getContext(), "❌ " + error, Toast.LENGTH_LONG).show();
+        CustomToast.showError(requireActivity(), error);
 
         // Show retry option for network errors
         if (error.contains("Network") || error.contains("connection")) {

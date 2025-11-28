@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:backgroundTint="@color/whiteKomyu"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- FrameLayout wrapper for badge positioning -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Rejected Icon with different background -->
+            <ImageView
+                android:id="@+id/img_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/plus_points_icon"
+                android:background="@drawable/logs_icon_circlebg"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:contentDescription="@string/app_name"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Top-up Failed"
+                    android:textStyle="bold" />
+
+
+
+            </LinearLayout>
+
+            <!-- Rejected Amount with strikethrough -->
+            <TextView
+                android:id="@+id/tv_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+100.00"
+                android:textColor="@color/lightblack2"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

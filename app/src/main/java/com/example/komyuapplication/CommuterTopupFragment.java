@@ -300,7 +300,7 @@ public class CommuterTopupFragment extends Fragment {
             isCustom = true;
         } else {
             // This should not happen due to validation, but as fallback
-            Toast.makeText(requireContext(), "Please select an amount", Toast.LENGTH_SHORT).show();
+            CustomToast.showWarning(requireActivity(), "Please select an amount");
             return;
         }
 
@@ -356,11 +356,11 @@ public class CommuterTopupFragment extends Fragment {
         try {
             parsedPoints = Integer.parseInt(pointsValue.trim());
             if (parsedPoints <= 0) {
-                Toast.makeText(requireContext(), "Points must be greater than 0", Toast.LENGTH_SHORT).show();
+                CustomToast.showWarning(requireActivity(), "Points must be greater than 0");
                 return;
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(requireContext(), "Invalid points value", Toast.LENGTH_SHORT).show();
+            CustomToast.showError(requireActivity(), "Invalid points value");
             return;
         }
 
@@ -391,9 +391,8 @@ public class CommuterTopupFragment extends Fragment {
                         if (response.isSuccessful() && response.body() != null) {
                             APIResponse apiResponse = response.body();
                             if (apiResponse.success == 1) {
-                                Toast.makeText(requireContext(),
-                                        String.format("Top-up request submitted! %s points pending admin approval.", finalPointsValue),
-                                        Toast.LENGTH_LONG).show();
+                                CustomToast.showSuccess(requireActivity(),
+                                        String.format("Top-up request submitted! %s points pending admin approval.", finalPointsValue));
 
                                 // Don't refresh balance immediately since it's pending approval
                                 // fetchUserProfileFromServer();
@@ -405,21 +404,18 @@ public class CommuterTopupFragment extends Fragment {
                             } else {
                                 String errorMessage = apiResponse.message != null ?
                                         apiResponse.message : "Unknown error occurred";
-                                Toast.makeText(requireContext(),
-                                        "Top-up failed: " + errorMessage,
-                                        Toast.LENGTH_LONG).show();
+                                CustomToast.showError(requireActivity(),
+                                        "Top-up failed: " + errorMessage);
                             }
                         } else {
                             try {
                                 String errorBody = response.errorBody() != null ?
                                         response.errorBody().string() : "HTTP Error: " + response.code();
-                                Toast.makeText(requireContext(),
-                                        "Top-up failed: " + errorBody,
-                                        Toast.LENGTH_LONG).show();
+                                CustomToast.showError(requireActivity(),
+                                        "Top-up failed: " + errorBody);
                             } catch (Exception e) {
-                                Toast.makeText(requireContext(),
-                                        "Top-up failed: Network error " + response.code(),
-                                        Toast.LENGTH_LONG).show();
+                                CustomToast.showError(requireActivity(),
+                                        "Top-up failed: Network error " + response.code());
                             }
                         }
                         resetForm();
@@ -431,9 +427,8 @@ public class CommuterTopupFragment extends Fragment {
             public void onFailure(@NonNull Call<APIResponse> call, @NonNull Throwable t) {
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
-                        Toast.makeText(requireContext(),
-                                "Top-up failed: " + t.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                        CustomToast.showError(requireActivity(),
+                                "Top-up failed: " + t.getMessage());
                         resetForm();
                     });
                 }

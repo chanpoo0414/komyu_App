@@ -16,6 +16,7 @@ public class APIResponse {
 
     public List<RecentActivity> recent_activity;
 
+    public List<TransactionHistory> transaction_history;
     public static class User {
         public int id;
 
@@ -91,7 +92,32 @@ public class APIResponse {
         public String conductor_name;
         public String route;
         public String plate_number;
+        public int is_reviewed; // Add this field for compatibility
     }
+
+    public static class TransactionHistory implements Serializable {
+        public String type;
+        public String title;
+        public String subtitle;
+        public String amount;
+        public String date;
+        public String transaction_code;
+        public String icon;
+        public String status;
+        public String counter_location;
+        public String driver_name;
+        public String conductor_name;
+        public String route;
+        public String plate_number;
+        public String admin_name;  // ADD THIS FIELD
+        public String remarks;
+        public int is_reviewed;
+        public String user_category;
+        public boolean isRejectedTopup() {
+            return "Failed".equals(status) && "topup".equals(type);
+        }
+    }
+
 
     public static class BusQRData {
         public String bus;

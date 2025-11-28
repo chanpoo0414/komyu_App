@@ -73,52 +73,38 @@ public class TransactionTripsDetsFragment extends Fragment {
     }
 
     private void checkIfAlreadyReviewed() {
-        String currentCommuterId = getCurrentCommuterId();
-        String transactionId = activity.transaction_code != null ? activity.transaction_code : "Unknown";
-
-        Log.d("TripDets", "=== CHECKING RATING STATUS ===");
-        Log.d("TripDets", "Commuter ID: " + currentCommuterId);
-        Log.d("TripDets", "Transaction ID: " + transactionId);
-        Log.d("TripDets", "Activity Type: " + activity.type);
-        Log.d("TripDets", "Activity Title: " + activity.title);
-
-        if (currentCommuterId.equals("Unknown") || transactionId.equals("Unknown")) {
-            Log.w("TripDets", "Cannot check rating status - missing commuter ID or transaction ID");
-            populateData(); // Show default view
+        // Check if we have the is_reviewed field from the API
+        if (activity.is_reviewed == 1) {
+            Log.d("TripDets", "Trip is already reviewed (from API is_reviewed field)");
+            isAlreadyReviewed = true;
+            populateData();
             return;
         }
 
-        Log.d("TripDets", "Checking if trip is already reviewed...");
+        // Only make API call if we don't have the field or it's 0
+        String currentCommuterId = getCurrentCommuterId();
+        String transactionId = activity.transaction_code != null ? activity.transaction_code : "Unknown";
+
+        if (currentCommuterId.equals("Unknown") || transactionId.equals("Unknown")) {
+            Log.w("TripDets", "Cannot check rating status - missing commuter ID or transaction ID");
+            populateData();
+            return;
+        }
+
+        Log.d("TripDets", "Checking if trip is already reviewed via API...");
         authRepository.checkTripRatingStatus(transactionId, currentCommuterId, new Callback<APIResponse>() {
             @Override
             public void onResponse(Call<APIResponse> call, Response<APIResponse> response) {
-                Log.d("TripDets", "API Response - Success: " + response.isSuccessful());
-                Log.d("TripDets", "API Response - Code: " + response.code());
-
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("TripDets", "API Body - Success: " + response.body().success);
-                    Log.d("TripDets", "API Body - Message: " + response.body().message);
-
-                    if (response.body().success == 1) {
-                        // Trip is already reviewed
-                        isAlreadyReviewed = true;
-                        reviewDetails = response.body().rating_data;
-                        Log.d("TripDets", "Trip is already reviewed - Overall: " +
-                                (reviewDetails != null ? reviewDetails.overall_rating : "N/A"));
-                        populateData(); // Show reviewed view
-                    } else {
-                        // Trip is not reviewed or error
-                        isAlreadyReviewed = false;
-                        reviewDetails = null;
-                        Log.d("TripDets", "Trip is not reviewed yet - " + response.body().message);
-                        populateData(); // Show rating form view
-                    }
+                if (response.isSuccessful() && response.body() != null && response.body().success == 1) {
+                    isAlreadyReviewed = true;
+                    reviewDetails = response.body().rating_data;
+                    Log.d("TripDets", "Trip is already reviewed via API");
                 } else {
                     isAlreadyReviewed = false;
                     reviewDetails = null;
-                    Log.d("TripDets", "API call failed or empty response");
-                    populateData(); // Show rating form view
+                    Log.d("TripDets", "Trip is not reviewed yet");
                 }
+                populateData();
             }
 
             @Override
@@ -126,7 +112,7 @@ public class TransactionTripsDetsFragment extends Fragment {
                 Log.e("TripDets", "Error checking rating status: " + t.getMessage());
                 isAlreadyReviewed = false;
                 reviewDetails = null;
-                populateData(); // Show default view
+                populateData();
             }
         });
     }
@@ -148,7 +134,7 @@ public class TransactionTripsDetsFragment extends Fragment {
             Log.d("TripDets", "Route: " + activity.route);
             Log.d("TripDets", "Driver: " + activity.driver_name);
             Log.d("TripDets", "Conductor: " + activity.conductor_name);
-            Log.d("TripDets", "User Category: " + activity.user_category);
+            Log.d("TripDets", "User Category: " + activity.user_category); // This should now show "Senior"
             Log.d("TripDets", "Transaction Code: " + activity.transaction_code);
             Log.d("TripDets", "Already Reviewed: " + isAlreadyReviewed);
             Log.d("TripDets", "=== END DEBUG ===");
@@ -251,7 +237,7 @@ public class TransactionTripsDetsFragment extends Fragment {
             showDefaultValues();
         }
     }
-
+//ill edit this
     private void configureRatingSection() {
         View reviewCard = getView().findViewById(R.id.card_review_btn);
         TextView detailsText = getView().findViewById(R.id.tv_details);

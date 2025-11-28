@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Komyu Application</string>
+    <string name="app_name">Komyu</string>
     <string name="google_logo">Google logo</string>
     <string name="komyu_logo_desc">Komyu logo</string>
     <string name="account_created">Account created successfully!</string>

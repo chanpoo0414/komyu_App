@@ -456,7 +456,7 @@
                             android:layout_marginHorizontal="12dp">
 
                             <TextView
-                                android:layout_width="251dp"
+                                android:layout_width="267dp"
                                 android:layout_height="wrap_content"
                                 android:text="Recent Activity"
                                 android:textColor="@android:color/black"
@@ -469,7 +469,7 @@
                                 android:text="See all"
                                 android:textColor="@color/greenKomyu"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

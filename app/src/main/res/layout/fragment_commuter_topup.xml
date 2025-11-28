@@ -131,7 +131,7 @@
             android:orientation="vertical">
 
             <!-- ID Input Card -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -180,10 +180,10 @@
                             android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Custom Amount Card -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -616,10 +616,10 @@
                         </com.google.android.material.card.MaterialCardView>
                     </GridLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Counter Selection Card -->
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -758,7 +758,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- Proceed Button -->
             <com.google.android.material.button.MaterialButton

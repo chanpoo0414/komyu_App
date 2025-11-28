@@ -13,7 +13,7 @@
         android:layout_height="66dp"
         android:background="@color/greenKomyu"
         android:elevation="4dp">
-
+<!--s-->
         <!-- Back button -->
         <ImageView
             android:id="@+id/btn_back_transactionDetails"

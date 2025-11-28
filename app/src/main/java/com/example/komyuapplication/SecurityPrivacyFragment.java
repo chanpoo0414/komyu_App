@@ -16,7 +16,7 @@ public class SecurityPrivacyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_security_privacy, container, false);
-
+//edit
         // Get the back button and set click listener
         ImageView btnBack = view.findViewById(R.id.btn_back_security_privacy);
         btnBack.setOnClickListener(new View.OnClickListener() {

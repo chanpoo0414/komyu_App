@@ -2,6 +2,7 @@ package com.example.komyuapplication;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class CommuterHomeFragment extends Fragment {
                 if (isGranted) {
                     launchQRScanner();
                 } else {
-                    Toast.makeText(requireContext(), "Camera permission is required to scan QR codes", Toast.LENGTH_SHORT).show();
+                    CustomToast.showError(requireActivity(), "Camera permission is required to scan QR codes");
                 }
             });
 
@@ -201,7 +202,7 @@ public class CommuterHomeFragment extends Fragment {
                             public void run() {
                                 updateUIWithUserData();
                                 fetchRecentActivity();
-                                Toast.makeText(requireContext(), "Data updated", Toast.LENGTH_SHORT).show();
+                                CustomToast.showSuccess(getActivity(), "Data updated");
                             }
                         });
                     }
@@ -210,7 +211,7 @@ public class CommuterHomeFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show();
+                                CustomToast.showError(getActivity(), "Failed to load user data");
                             }
                         });
                     }
@@ -226,7 +227,7 @@ public class CommuterHomeFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            CustomToast.showError(getActivity(), "Network error: " + t.getMessage());
                         }
                     });
                 }
@@ -237,29 +238,49 @@ public class CommuterHomeFragment extends Fragment {
     private void fetchRecentActivity() {
         if (sessionManager == null || !sessionManager.isLoggedIn()) return;
 
+        Log.d("RecentActivity", "Fetching recent activity for: " + sessionManager.getUsername());
+
         APIService api = APIClient.getInstance().create(APIService.class);
         Call<APIResponse> call = api.getRecentActivity(sessionManager.getUsername());
 
         call.enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse> call, @NonNull Response<APIResponse> response) {
+                Log.d("RecentActivity", "Response code: " + response.code());
+
                 if (getActivity() != null && response.isSuccessful() && response.body() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             APIResponse apiResponse = response.body();
+                            Log.d("RecentActivity", "Success: " + apiResponse.success);
+                            Log.d("RecentActivity", "Message: " + apiResponse.message);
+
                             if (apiResponse.success == 1 && apiResponse.recent_activity != null) {
+                                Log.d("RecentActivity", "Activities count: " + apiResponse.recent_activity.size());
                                 updateRecentActivityUI(apiResponse.recent_activity);
                             } else {
+                                Log.d("RecentActivity", "No activities or failed");
                                 loadSampleRecentActivity();
                             }
                         }
                     });
+                } else {
+                    Log.d("RecentActivity", "Response not successful or null");
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadSampleRecentActivity();
+                            }
+                        });
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse> call, @NonNull Throwable t) {
+                Log.d("RecentActivity", "Network failure: " + t.getMessage());
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -320,6 +341,8 @@ public class CommuterHomeFragment extends Fragment {
 
     private void updateUIWithUserData() {
         if (currentUser != null) {
+            Log.d("UserDebug", "User Category: " + currentUser.categories);
+            Log.d("UserDebug", "Points Balance: " + currentUser.pointsBalance);
             if (currentUser.fullName != null && !currentUser.fullName.isEmpty()) {
                 tvFullName.setText(currentUser.fullName);
             } else {
@@ -407,11 +430,11 @@ public class CommuterHomeFragment extends Fragment {
                         String scannedData = barcode.getRawValue();
                         if (scannedData != null) handleScannedQRCode(scannedData);
                     })
-                    .addOnCanceledListener(() -> Toast.makeText(requireContext(), "Scan cancelled", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(requireContext(), "Scan failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnCanceledListener(() -> CustomToast.showInfo(getActivity(), "Scan cancelled"))
+                    .addOnFailureListener(e -> CustomToast.showError(getActivity(), "Scan failed: " + e.getMessage()));
 
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "QR scanner not available: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            CustomToast.showError(getActivity(), "QR scanner not available: " + e.getMessage());
         }
     }
 
@@ -432,7 +455,7 @@ public class CommuterHomeFragment extends Fragment {
                     String amount = parts[1];
                     showTerminalPaymentConfirmation(terminalId, amount);
                 } else {
-                    Toast.makeText(requireContext(), "Invalid QR code format", Toast.LENGTH_SHORT).show();
+                    CustomToast.showError(requireActivity(), "Invalid QR code format");
                 }
             }
         } catch (Exception e) {
@@ -444,10 +467,10 @@ public class CommuterHomeFragment extends Fragment {
                     String amount = parts[1];
                     showTerminalPaymentConfirmation(terminalId, amount);
                 } else {
-                    Toast.makeText(requireContext(), "Invalid QR code format", Toast.LENGTH_SHORT).show();
+                    CustomToast.showError(requireActivity(), "Invalid QR code format");
                 }
             } catch (Exception ex) {
-                Toast.makeText(requireContext(), "Error processing QR code", Toast.LENGTH_SHORT).show();
+                CustomToast.showError(requireActivity(), "Error processing QR code");
             }
         }
     }
@@ -455,27 +478,64 @@ public class CommuterHomeFragment extends Fragment {
 
     private void showBusPaymentDialog(APIResponse.BusQRData busData) {
         if (currentUser == null) {
-            Toast.makeText(requireContext(), "User data not loaded", Toast.LENGTH_SHORT).show();
+            CustomToast.showError(requireActivity(), "User data not loaded");
             return;
         }
 
-        // Calculate fare based on user category
-        double fare = 35.00; // Default regular fare
+        // Get user category
+        String userCategory = currentUser.categories != null ? currentUser.categories : "Regular";
+
+        // DEBUG: Log the QR data to see what fares are available
+        Log.d("QRDebug", "QR Bus Data: " + new Gson().toJson(busData));
+
+        // Get base regular fare - FIXED LOGIC
+        double regularFare = 35.00; // Default regular fare
+
+        // Check if QR has fare data and use it, otherwise use defaults
         if (busData.fares != null) {
-            String userCategory = currentUser.categories != null ? currentUser.categories : "Regular";
-            switch (userCategory.toLowerCase()) {
-                case "student":
-                case "senior citizen":
-                case "pwd":
-                    fare = busData.fares.student != null ? busData.fares.student : 28.00;
-                    break;
-                default:
-                    fare = busData.fares.regular != null ? busData.fares.regular : 35.00;
-                    break;
+            if (busData.fares.regular != null) {
+                regularFare = busData.fares.regular;
+            }
+            Log.d("QRDebug", "QR Fares - Regular: " + busData.fares.regular +
+                    ", Student: " + busData.fares.student +
+                    ", Senior: " + busData.fares.senior_citizen +
+                    ", PWD: " + busData.fares.pwd);
+        } else {
+            Log.d("QRDebug", "No fare data in QR, using defaults");
+        }
+
+        // Calculate discounted fare based on user category - SIMPLIFIED AND FIXED
+        double finalFare = regularFare; // Default to regular fare
+
+        // Apply 20% discount for students, PWD, and senior citizens
+        if (userCategory.equalsIgnoreCase("student") ||
+                userCategory.equalsIgnoreCase("pwd") ||
+                userCategory.equalsIgnoreCase("senior")) { // CHANGED: "senior citizen" to "senior"
+
+            // Try to get discounted fare from QR data first
+            if (busData.fares != null) {
+                if (userCategory.equalsIgnoreCase("student") && busData.fares.student != null) {
+                    finalFare = busData.fares.student;
+                } else if (userCategory.equalsIgnoreCase("senior") && busData.fares.senior_citizen != null) {
+                    finalFare = busData.fares.senior_citizen;
+                } else if (userCategory.equalsIgnoreCase("pwd") && busData.fares.pwd != null) {
+                    finalFare = busData.fares.pwd;
+                } else {
+                    // Fallback: calculate 20% discount
+                    finalFare = regularFare * 0.8;
+                }
+            } else {
+                // If no QR fare data, always apply 20% discount
+                finalFare = regularFare * 0.8;
             }
         }
 
-        double finalFare = fare;
+        double finalFareValue = finalFare;
+
+        // DEBUG: Log the fare calculation
+        Log.d("FareDebug", "User: " + userCategory +
+                ", Regular Fare: " + regularFare +
+                ", Final Fare: " + finalFareValue);
 
         // Create custom dialog
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
@@ -495,23 +555,41 @@ public class CommuterHomeFragment extends Fragment {
         MaterialButton btnPay = dialogView.findViewById(R.id.btn_pay);
         MaterialButton btnCancel = dialogView.findViewById(R.id.btn_cancel);
 
+        // ✅ ADD THIS: Initialize discount info and HIDE it by default
+        TextView tvDiscountInfo = dialogView.findViewById(R.id.tv_discount_info);
+        if (tvDiscountInfo != null) {
+            tvDiscountInfo.setVisibility(View.GONE); // Hide by default
+        }
+
         // Set data
         tvBusNumber.setText(busData.bus != null ? busData.bus : "N/A");
         tvDriver.setText(busData.driver_name != null ? busData.driver_name : "Not assigned");
         tvConductor.setText(busData.conductor_name != null ? busData.conductor_name : "Not assigned");
-        tvFare.setText(String.format("₱%.2f", finalFare));
-        tvUserCategory.setText(currentUser.categories != null ? currentUser.categories : "Regular");
+        tvFare.setText(String.format("₱%.2f", finalFareValue));
+        tvUserCategory.setText(userCategory);
         tvCurrentBalance.setText(String.format("₱%.2f", currentUser.pointsBalance));
 
         // Calculate and display new balance
-        double newBalance = currentUser.pointsBalance - finalFare;
-        tvNewBalance.setText(String.format("₱%.2f", newBalance));
+        double newBalance = currentUser.pointsBalance - finalFareValue;
+        tvNewBalance.setText(String.format("₱%.2f (pending)", newBalance));
+
 
         // Set text color based on balance
         if (newBalance < 0) {
             tvNewBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.RedLogout));
+            btnPay.setEnabled(false); // Disable pay button if insufficient balance
         } else {
             tvNewBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.greenKomyu));
+            btnPay.setEnabled(true);
+        }
+
+        // Show discount information if applicable
+        if (finalFareValue < regularFare) {
+            // ✅ NOW tvDiscountInfo is already initialized above
+            if (tvDiscountInfo != null) {
+                tvDiscountInfo.setVisibility(View.VISIBLE); // SHOW only when discount applies
+                tvDiscountInfo.setText(String.format("20%% discount applied! (Original: ₱%.2f)", regularFare));
+            }
         }
 
         dialogBuilder.setView(dialogView);
@@ -520,10 +598,10 @@ public class CommuterHomeFragment extends Fragment {
 
         // Set button listeners
         btnPay.setOnClickListener(v -> {
-            if (currentUser.pointsBalance >= finalFare) {
-                processBusPayment(busData, finalFare, dialog);
+            if (currentUser.pointsBalance >= finalFareValue) {
+                processBusPayment(busData, finalFareValue, userCategory, dialog);
             } else {
-                Toast.makeText(requireContext(), "Insufficient balance!", Toast.LENGTH_SHORT).show();
+                CustomToast.showError(requireActivity(), "Insufficient balance!");
             }
         });
 
@@ -532,7 +610,8 @@ public class CommuterHomeFragment extends Fragment {
         dialog.show();
     }
 
-    private void processBusPayment(APIResponse.BusQRData busData, double fare, AlertDialog dialog) {
+    //    sadas
+    private void processBusPayment(APIResponse.BusQRData busData, double fare, String userCategory, AlertDialog dialog) {
         if (sessionManager == null || !sessionManager.isLoggedIn()) {
             Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
             return;
@@ -540,9 +619,17 @@ public class CommuterHomeFragment extends Fragment {
 
         // Show loading
         dialog.dismiss();
-        Toast.makeText(requireContext(), "Processing payment...", Toast.LENGTH_SHORT).show();
+        CustomToast.show(getActivity(), "Processing payment...");
 
         APIService api = APIClient.getInstance().create(APIService.class);
+
+        // TEMPORARY: Add debug logging in Android
+        Log.d("PaymentDebug", "Sending payment request:");
+        Log.d("PaymentDebug", "Username: " + sessionManager.getUsername());
+        Log.d("PaymentDebug", "Bus: " + (busData.bus != null ? busData.bus : ""));
+        Log.d("PaymentDebug", "Fare: " + fare);
+        Log.d("PaymentDebug", "User Category: " + userCategory);
+
         Call<APIResponse> call = api.processBusPayment(
                 sessionManager.getUsername(),
                 busData.bus != null ? busData.bus : "",
@@ -554,28 +641,41 @@ public class CommuterHomeFragment extends Fragment {
         call.enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(@NonNull Call<APIResponse> call, @NonNull Response<APIResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                Log.d("PaymentDebug", "Response received: " + response.code());
+
+                // Handle both 200 and 500 responses if they contain success data
+                if (response.isSuccessful() || response.body() != null) {
                     APIResponse apiResponse = response.body();
-                    if (apiResponse.success == 1) {
-                        // Payment successful - show success dialog with trip details
-                        if (apiResponse.data != null) {
-                            showPaymentSuccessDialog(apiResponse.data);
+                    if (apiResponse != null) {
+                        Log.d("PaymentDebug", "Response success: " + apiResponse.success);
+                        Log.d("PaymentDebug", "Response message: " + apiResponse.message);
+
+                        if (apiResponse.success == 1) {
+                            // Payment successful
+                            if (apiResponse.data != null) {
+                                Log.d("PaymentDebug", "Fare paid: " + apiResponse.data.fare_paid);
+                                Log.d("PaymentDebug", "User category: " + apiResponse.data.user_category);
+                                showPaymentSuccessDialog(apiResponse.data);
+                            } else {
+                                CustomToast.showSuccess(getActivity(), "QR passenger added successfully!");
+                            }
+                            // Refresh user data
+                            fetchUserProfileFromServer();
                         } else {
-                            Toast.makeText(requireContext(), "Payment successful!", Toast.LENGTH_SHORT).show();
+                            CustomToast.showError(getActivity(), "Payment failed: " + apiResponse.message);
                         }
-                        // Refresh user data
-                        fetchUserProfileFromServer();
                     } else {
-                        Toast.makeText(requireContext(), "Payment failed: " + apiResponse.message, Toast.LENGTH_LONG).show();
+                        CustomToast.showError(getActivity(), "Payment failed: Invalid response format");
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Payment failed", Toast.LENGTH_SHORT).show();
+                    CustomToast.showError(getActivity(), "Payment failed: No response from server");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse> call, @NonNull Throwable t) {
-                Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("PaymentDebug", "Network failure: " + t.getMessage());
+                CustomToast.show(getActivity(), "Network error: " + t.getMessage());
             }
         });
     }
@@ -593,6 +693,7 @@ public class CommuterHomeFragment extends Fragment {
         TextView tvBalance = dialogView.findViewById(R.id.tv_success_balance);
         TextView tvTripId = dialogView.findViewById(R.id.tv_success_trip_id);
         MaterialButton btnOk = dialogView.findViewById(R.id.btn_success_ok);
+
 
         // Set data
         tvFare.setText(String.format("₱%.2f", paymentData.fare_paid));
@@ -621,7 +722,7 @@ public class CommuterHomeFragment extends Fragment {
                 .setMessage("Pay ₱" + amount + " to " + terminalId + "?")
                 .setPositiveButton("Pay", (dialog, which) -> {
                     // Your existing terminal payment logic
-                    Toast.makeText(requireContext(), "Payment of ₱" + amount + " to " + terminalId + " confirmed", Toast.LENGTH_LONG).show();
+                    CustomToast.showSuccess(requireActivity(), "Payment of ₱" + amount + " to " + terminalId + " confirmed");
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
@@ -635,14 +736,13 @@ public class CommuterHomeFragment extends Fragment {
                 String amount = parts[1];
                 showPaymentConfirmation(terminalId, amount);
             } else {
-                Toast.makeText(requireContext(), "Invalid QR code format", Toast.LENGTH_SHORT).show();
+                CustomToast.showError(requireActivity(), "Invalid QR code format");
             }
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "Error processing QR code", Toast.LENGTH_SHORT).show();
+            CustomToast.showError(requireActivity(), "Invalid QR code format");
         }
     }
 
     private void showPaymentConfirmation(String terminalId, String amount) {
-        Toast.makeText(requireContext(), "Confirm payment of ₱" + amount + " to Terminal " + terminalId, Toast.LENGTH_LONG).show();
-    }
+        CustomToast.showInfo(requireActivity(), "Confirm payment of ₱" + amount + " to Terminal " + terminalId);    }
 }

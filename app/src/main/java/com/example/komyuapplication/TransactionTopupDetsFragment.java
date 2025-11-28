@@ -89,6 +89,8 @@ public class TransactionTopupDetsFragment extends Fragment {
                 amount.setTextColor(getResources().getColor(R.color.RedLogout));
             }
 
+//edit ko ni
+
             // FIX DATE & TIME - Handle potential parsing issues
             TextView datetime = getView().findViewById(R.id.tv_transactionDetails_datetime);
             if (activity.date != null && !activity.date.isEmpty()) {

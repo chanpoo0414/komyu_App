@@ -13,6 +13,8 @@ import java.util.List;
 
 public class RecentActivityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
+//    updating 11/10/25
     private static final int TYPE_EMPTY = 0;
     private static final int TYPE_ITEM = 1;
 
